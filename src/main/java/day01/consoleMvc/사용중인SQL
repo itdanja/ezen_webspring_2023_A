@@ -1,0 +1,13 @@
+
+drop database if exists springweb;
+create database springweb;
+use springweb;
+
+drop table if exists todo;
+create table todo(
+	tno int auto_increment ,
+    title varchar(100) ,
+    dueDate date ,
+    finished boolean ,
+    primary key( tno )
+);
