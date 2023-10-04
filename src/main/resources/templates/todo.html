@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="/todo.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="todobox">
+        <h1> 나만의 할일 목록 </h1>
+        <div class="todo_top">
+            <input class="tcontent"  type="text" />
+            <button type="button" onclick="doPost()">등 록</button>
+        </div>
+        <div class="todo_bottom">
+
+            <div class="todo">
+                <div class="tcontent"> 리액트 배우기 </div>
+                <div class="etcbtns">
+                    <button type="button" onclick="doPut()">상변경</button>
+                    <button type="button" onclick="doDelete()">제거하기</button>
+                </div>
+            </div>
+
+            <div class="todo successTodo">
+                <div class="tcontent"> 자바 책 사러 가기 </div>
+                <div class="etcbtns">
+                    <button type="button" onclick="doPut()">상태변경</button>
+                    <button type="button" onclick="doDelete()">제거하기</button>
+                </div>
+            </div>
+
+            <div class="todo">
+                <div class="tcontent"> 드라마 보기 </div>
+                <div class="etcbtns">
+                    <button type="button" onclick="doPut()">상태변경</button>
+                    <button type="button" onclick="doDelete()">제거하기</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="/todo.js"> </script>
+
+</body>
+</html>
