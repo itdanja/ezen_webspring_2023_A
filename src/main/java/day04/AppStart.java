@@ -4,7 +4,7 @@ package day04;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication // 모든 컴포넌트들을 찾아서 빈 등록
 public class AppStart {
     public static void main(String[] args) {
         SpringApplication.run( AppStart.class );

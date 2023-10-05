@@ -6,7 +6,7 @@ import lombok.*;
 @Getter@Setter@ToString
 @Builder
 public class TodoDto {
-    private int tno;
-    private String tcontent;
-    private String tstate;
+    private int tno;            // 번호
+    private String tcontent;    //내용
+    private boolean tstate;      // 상태
 }
