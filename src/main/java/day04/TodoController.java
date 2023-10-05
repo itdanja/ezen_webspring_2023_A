@@ -9,12 +9,12 @@ import java.util.List;
 
 // 스프링 빈 : 스프링 컨테이너(저장소)에 저장된 객체 [ 이유 : 스프링이 대신 객체 관리 => 여러개발자들이 작업했을때 기준  ]
 
-// @Controller // Spring MVC 중 해당 클래스를 Controller 로 사용 // 스프링 컨테이너 빈 등록
+// @Controller // Spring MVC 중 해당 클래스를 Controller 로 사용 // 스프링 컨테이너[공간] 빈[bean] 등록
 @RestController // Controller + ResponseBody
 @RequestMapping("/todo") // HTTP로부터의 해당 클래스의 매핑 주소 만들기 // 공통URL
 public class TodoController {
 
-    @Autowired // 미리 등록된 스프링 컨테이너에서 빈 찾아서 주입
+    @Autowired // 미리 등록된 스프링 컨테이너[공간/상자=힙영역]에서 빈(bean/객체) 찾아서 주입
     private TodoService todoService; // 서비스 객체
 
     //REST : HTTP기반으로  GET , POST , PUT , DELETE 메소드 이용한 웹 서비스
