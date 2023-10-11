@@ -34,7 +34,9 @@ commit;]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="a630de01-4748-4ad4-84c9-4177c2c6ece5" object-ref="consoles/SpringDB" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
