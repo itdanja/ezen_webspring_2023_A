@@ -1,0 +1,41 @@
+
+    HTTP : 문서 이동 규약 ( 문자 데이터 전송 )           @RequestParam
+        보내고받는방법=편지봉투 [  contentType , mehtod , 쿼리스트링 ? , url  ]
+            contentType
+                    1. application/x-www-form-urlencoded  ( 기본값 AJAX )
+                       data : { }
+                            [JAVA SPRING]Controller
+                            1.
+                                 @PostMapping
+                                 NoteDto
+                            2.
+                                @PostMapping
+                                @RequestBody NoteDto [ 자동 매핑 불가능 합니다. ] X
+
+                    2. application/json                   ( 기본값 AXIOS )
+                         data : JSON.Stringify({ })
+                         2.
+                            @PostMapping
+                            @RequestBody NoteDto [ 자동 매핑 불가능 합니다. ] X
+
+                    3. text/html
+
+                    4. multipart/form-data
+                            @RequestBody NoteDto
+        내용물=편지지[ BODY : post , put ]
+            data : { }
+
+            1. JSON.Stringify() : json타입 ---> 문자열타입
+            2. JSON.parse()     : 문자열타입 ---> json타입
+
+            내용물 형식/생김새/양식
+                "{ asaa:"ddd" }" json형식 문자열타입
+                { asaa:"ddd" } json형식  json타입
+
+                "1" 숫자형식 문자열타입
+                1   숫자형식 정수형타입
+
+    AJAX <-----------------HTTP----------------> JAVA
+
+    - AJAX [ HTTP 사용하는 함수 ]
+    - WebSocket [ WS 사용하는 클래스 ]

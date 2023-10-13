@@ -14,9 +14,7 @@ public class TodoController {
     private TodoService todoService;
 
     @GetMapping("/index")
-    public Resource getIndex(){
-        return new ClassPathResource("templates/todo.html");
-    }
+    public Resource getIndex(){ return new ClassPathResource("templates/todo.html"); }
 
     @PostMapping("") // POST http://localhost:80/todo
     public boolean doPost( @RequestBody TodoDto todoDto ){
