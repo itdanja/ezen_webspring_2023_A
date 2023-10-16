@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
+
 @AllArgsConstructor@NoArgsConstructor
 @Getter@Setter@ToString@Builder
 public class MemberDto {
@@ -18,6 +20,10 @@ public class MemberDto {
     private String mname;       // 4.이름
     private String mphone;      // 5.연락처
     private String mrole;       // 6.회원등급( 일반회원=user , 관리자회원=admin )
+
+    // + baseTime
+    private LocalDateTime cdate;
+    private LocalDateTime udate;
 
     // dto --> entity 변환 함수
         // service 에서 dto정보 를 db테이블 매핑에 저장하기 위해서

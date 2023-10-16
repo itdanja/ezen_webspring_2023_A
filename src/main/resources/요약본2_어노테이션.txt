@@ -19,6 +19,8 @@
 		@RequestBody        클라이언트가 서버로 전송하는 Http 요청의 Body의 내용을 JavaObject로 변환시켜주는 어노테이션
 		- @ModelAttribute     쿼리스트링 형식의 요청 매개변수를 객체로 매핑
 		- @PathVariable       경로상의 매개변수 형식의 요청 매개변수 매핑              URL/값/값
+    @Repository             Spring에서 리포지토리를 지정하기 위한 어노테이션 [ spring 컨테이너에 빈 등록 ]
+                            - entity객체를 조작할때 사용되는 인터페이스
 
 3. lombok
 	@NoArgsConstructor		빈생성자 자동 생성
@@ -29,3 +31,34 @@
 	@Builder				필더 패턴 [ 유연하게(생성자 단점 보완 ) 객체 생성 도와주는 함수 제공 ]
 
 4. JPA
+    1. entity
+        @Entity
+        @Table( name = "테이블명")
+        @Id
+        @GeneratedValue( strategy = GenerationType.IDENTITY )
+        @Column( name="필드명" , length = "최대문자수" , nullable = false)
+            name = ""
+            length = "최대문자수"
+            nullable = false
+            unique = true
+
+    2. Repository
+        @Repository
+        @Transactional
+
+    3. Jpa Auditing
+        @EnableJpaAuditing
+        @EntityListeners( AuditingEntityListener.class )
+        @MappedSuperclass
+        @CreatedDate
+        @LastModifiedDate
+
+
+
+
+
+
+
+
+
+
