@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +29,7 @@ public class MemberService {
         if( memberEntity.getMno() >= 1 ){ return  true ; }
         return false;
     }
+    /*
     // 2. [R] 회원정보 호출 [ 1명 ]
     @Transactional
     public MemberDto getMember(  int mno ){
@@ -41,6 +44,8 @@ public class MemberService {
         }
         return null;
     }
+     */
+
     // 3. [U] 회원정보 수정
     @Transactional
     public boolean updateMember(  MemberDto memberDto ){
@@ -73,6 +78,43 @@ public class MemberService {
             return true;
         }
         return false;
+    }
+
+    // 로그인했고 안했고 상태 저장하는곳 => request객체도 스프링 컨테이너 등록 상태.
+    @Autowired
+    private HttpServletRequest request;
+    // 5.
+    @Transactional
+    public boolean login( MemberDto memberDto  ) {
+        // 1. 입력받은 데이터[아이디/패스워드] 검증하기
+        List<MemberEntity> memberEntities = memberEntityRepository.findAll();
+            // 2. 동일한 아이디 / 비밀번호 찾기
+            for( int i = 0 ; i < memberEntities.size() ; i++ ) {
+                MemberEntity m = memberEntities.get(i);
+                // 3. 동일한 데이터 엔티티 찾았다.
+                if (m.getMemail().equals(memberDto.getMemail()) &&
+                        m.getMpassword().equals(memberDto.getMpassword())) {
+                    // 4. 세션 부여      // 세션 저장
+                    request.getSession().setAttribute("loginDto", m.toDto());
+                    return true;
+                }
+            }
+        return false;
+    }
+    // 6.
+    public boolean logout() {
+        request.getSession().setAttribute( "loginDto" , null );
+        return true;
+    }
+    // 2. [R] 회원정보 호출 [ 1명 ]
+    public MemberDto getMember(){
+        // 1. 세션 호출
+        Object session = request.getSession().getAttribute("loginDto");
+        // 2. 세션 검증
+        if( session != null ){
+            return (MemberDto) session;
+        }
+        return null;
     }
 }
 
