@@ -29,7 +29,6 @@ public class MemberDto {
         // service 에서 dto정보 를 db테이블 매핑에 저장하기 위해서
     public MemberEntity toEntity(){
         return MemberEntity.builder()
-                .mno(this.mno)
                 .memail(this.memail)
                 .mpassword( this.mpassword )
                 .mname( this.mname )

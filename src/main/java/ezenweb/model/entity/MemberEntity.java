@@ -3,6 +3,7 @@ package ezenweb.model.entity;
 import ezenweb.model.dto.MemberDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Table( name = "member") // db테이블명 정의 [ 생략시 해당 클래스명이 db테이블 명으로 자동 생성 ]
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString @Builder
+@DynamicInsert
 public class MemberEntity extends BaseTime {
     @Id // 해당 필드를 pk로 선정
     @GeneratedValue( strategy = GenerationType.IDENTITY ) // auto_increment
