@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-
-@RestController // 컨트롤러 + ResponseBody
+// IOC(Inversion Of Control) : 제어역전 ( 객체 관리를 스프링에게 위임 = 왜?? 개발자가 편할려고/협업할려고(객체 공유해서 쓸려고=서로다른객체 사용했을때 문제 발생=싱글톤) )
+// DI(Dependency injection ) : 의존성 주입 [ 스프링이 객체를 관리하니까.. 스프링에게 객체를 의존(부탁) 해서 주입(가져오기) ]
+@RestController // 컨트롤러(@Component포함=스프링컨테이너(스프링 관리하는 메모리 공간) 빈(객체) 등록 ) + ResponseBody
 @RequestMapping("/member") // 클래스 매핑
 public class MemberController {
     // Controller -> Service 요청

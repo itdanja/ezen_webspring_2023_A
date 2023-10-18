@@ -29,7 +29,7 @@ public class MemberEntity extends BaseTime {
     @Column // 해당 필드 선정
     @ColumnDefault( "'user'" ) // ColumnDefault("초기값") ColumnDefault("'문자열경우'")
     private String mrole;       // 6.회원등급( 일반회원=user , 관리자회원=admin )
-
+    // [ BaseTime 클래스가 상속해주는 필드 : 1.회원가입일자 2.회원정보수정일 ]
 
     // entity --> dto 변환 함수
         // service 에서 entity 정보 를 controller 로 이동하기 위해

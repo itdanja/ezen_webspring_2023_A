@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
+@Repository// 리포지토리( @Component포함 )
 public interface MemberEntityRepository extends JpaRepository<MemberEntity , Integer >  {
 
 }

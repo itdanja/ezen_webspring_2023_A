@@ -12,12 +12,12 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service//서비스(@Component포함)
 public class MemberService {
     // Controller -> Service -> Repository 요청
     // Controller <- Service <- Repository 응답
     @Autowired
-    private MemberEntityRepository memberEntityRepository;
+    private MemberEntityRepository memberEntityRepository ;
 
     // 1. [C] 회원가입
     @Transactional // 트랜잭션 : 여러개 SQL를 하나의 최소 단위 처리 [ 성공 , 실패  !! 함수내 일부 SQL만 성공x]
