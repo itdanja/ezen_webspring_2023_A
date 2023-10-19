@@ -8,6 +8,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @EnableJpaAuditing // JPA Auditing 실행
 @SpringBootApplication // 스프링 부트 실행 해주는 기능 주입 [ 다양한 기능 제공 ]

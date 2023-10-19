@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+    <script>
+
+        let list = ["수박","딸기","포도","사과"];
+
+        for( let i = 0 ; i<list.length ; i++ ){ console.log( "for1 : "+ list[i] ); }
+        for( let str in list ){ console.log("for2 : "+ str ); }
+        for( let str of list ){ console.log("for2 : "+ str ); }
+        list.forEach( str => { console.log("for3 : "+  str ); });
+        let newList = list.map( str =>{ console.log( "for4 : "+str ); return str;  } )
+        let newArrays = list.filter(str =>  { return str=="포도";  } )
+
+    </script>
+
+</body>
+</html>
