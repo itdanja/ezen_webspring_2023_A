@@ -1,0 +1,16 @@
+구현 순서 
+	<JSP>
+	1. DB [ create table 테이블( 필드명 속성명 , 필드명 속성명 ); ]
+	2. DTO / DAO
+	3. 프론트엔드[HTML/JS] -> 백엔드[Controller/Dao]
+
+	< SPRING >
+	1. Entity 클래스 [ 엔티티클래스=테이블 / 엔티티=레코드 ]	= JPA라이브러리
+	2. Dto 클래스 / Repository
+	3. 백엔드[ Controller => controller / service ]
+	- Restful APi 테스트 [ API Tester ] 백엔드 테스트 진행 
+	- 요청/응답에 따른 문서 작성 
+	----------------------
+	Restful APi 요청/응답 문서 보고 ajax/axios 통신 이용한 JS 구현 
+	4. HTML/CSS/JS 구현 
+

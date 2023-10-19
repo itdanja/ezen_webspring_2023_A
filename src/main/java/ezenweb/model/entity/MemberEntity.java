@@ -8,6 +8,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity // 해당 클래스를 db테이블과 매핑 [ 엔티티클래스 <----> db테이블 ( 엔티티 객체 1개 <---> db테이블내 레코드 1개  ) ]
 @Table( name = "member") // db테이블명 정의 [ 생략시 해당 클래스명이 db테이블 명으로 자동 생성 ]
@@ -30,6 +32,11 @@ public class MemberEntity extends BaseTime {
     @ColumnDefault( "'user'" ) // ColumnDefault("초기값") ColumnDefault("'문자열경우'")
     private String mrole;       // 6.회원등급( 일반회원=user , 관리자회원=admin )
     // [ BaseTime 클래스가 상속해주는 필드 : 1.회원가입일자 2.회원정보수정일 ]
+
+    // 게시물목록 = 내가 쓴 게시물
+    @Builder.Default // 빌더패턴 사용시 해당 필드를 값을 기본값으로 사용
+    @OneToMany( mappedBy = "memberEntity" ) // 하나가 다수에게 [ PK ] // 실제 DB 영향 X
+    private List<BoardEntity> boardEntityList = new ArrayList<>();
 
     // entity --> dto 변환 함수
         // service 에서 entity 정보 를 controller 로 이동하기 위해

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface BoardEntityRepository
     //extends JpaRepository< 조작할엔티티 , 조작할엔티티의PK필드타입 > {
     extends JpaRepository< BoardEntity, Integer > {
+
 }
