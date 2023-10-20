@@ -31,35 +31,48 @@
 	@ToString			    필드의 toString메소드 자동 생성
 	@Builder				필더 패턴 [ 유연하게(생성자 단점 보완 ) 객체 생성 도와주는 함수 제공 ]
 
+	@ToString.Exclude       : ToString() 함수 제외 [ 필드에 선언 ]
+	@Builder.Default        : Builder 패턴 사용시 필드 값을 초기값으로 사용 [필드에 선언 ]
+
 4. JPA
     1. entity
-        @Entity
-        @Table( name = "테이블명")
-        @Id
-        @GeneratedValue( strategy = GenerationType.IDENTITY )
-        @Column( name="필드명" , length = "최대문자수" , nullable = false)
+        @Entity : DB 테이블에 대응하는 하나의 클래스 [ 클래스에 선언 ]
+        @Table( name = "테이블명") : DB테이블명 정의 [ 클래스에 선언 ]
+        @Id : PK 선언 [ 필드에 선언 ]
+        @GeneratedValue( strategy = GenerationType.IDENTITY )  : auto_increment 선언 [ 필드에 선언 ]
+        @ColumnDefault("숫자") @ColumnDefault("'문자'") : 필드 초기값[ 필드에 선언 ]
+        @DynamicInsert          : @ColumnDefault 가 적용될수 있도록 해주는 어노테이션 [ 클래스에 선언 ]
             name = ""
             length = "최대문자수"
             nullable = false
             unique = true
             columnDefinition = "실제DB자료형"
+        @Column( name="필드명" , length = "최대문자수" , nullable = false) [ 필드에 선언 ]
 
+        - DB와 엔티티 자료형 차이
                 DB                        JAVA[엔티티]
                 varchar                   String
                 int                       int
                 detetime                  LocalDateTime
                 longtext                  @Column( columnDefinition = "longtext" )
-
-    2. Repository
-        @Repository
-        @Transactional
+    2.
+        @Transactional          :하나/여럿 작업[SQL] 들을 묶어서 최소단위 업무처리
 
     3. Jpa Auditing
-        @EnableJpaAuditing
-        @EntityListeners( AuditingEntityListener.class )
-        @MappedSuperclass
-        @CreatedDate
-        @LastModifiedDate
+        1. @EnableJpaAuditing   : JPA 엔티티 감지기능 실행 / 스프링부트 시작 클래스와 같이 주입
+        2. @MappedSuperclass    : 엔티티에게 상속주는 클래스일경우 [ 서로 다른 엔티티간의 공통 필드 묶을때 ]
+                                + 일반 상속[ 기본 자바 ]은 @메타 어노테이션 상속불가능
+                                @MappedSuperclass : 매핑 필드[ @CreatedDate , @LastModifiedDate ]까지 상속기능
+        3. @EntityListeners( AuditingEntityListener.class ) 해당 필드를 사용하는 엔티티 감지 적용
+                                @EntityListeners : 엔티티에서 특정 이벤트[DML->SERVICE]가 발생 할때마다 특정 로직 실행
+        4. @CreatedDate         : 엔티티 생성날짜/시간 주입
+        5. @LastModifiedDate    : 엔티티 [ sql : update ] 실행 되었을때 날짜/시간 주입
+
+    4. 연관관계
+        1. @JoinColumn
+        2. @OneToMany( mappedBy = " " )
+        3. @ManyToOne
+
 
 
 
