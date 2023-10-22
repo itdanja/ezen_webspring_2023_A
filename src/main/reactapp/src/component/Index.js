@@ -14,6 +14,8 @@ import CommentList from './example/day02/CommentList.js'
 
 import Axios컴포넌트 from './example/day03/2_Axios컴포넌트.js'
 
+import 상태컴포넌트 from './example/day04/1_상태컴포넌트'
+
 import Login from './member/Login.js'
 import Signup from './member/Signup.js'
 
@@ -33,6 +35,8 @@ export default function Index( props ) {
                         <Route path="/example/day02/CommentList" element = { <CommentList/> } />
 
                         <Route path="/example/day03/Axios컴포넌트" element = { <Axios컴포넌트/> } />
+
+                        <Route path="/example/day04/상태컴포넌트" element = { <상태컴포넌트/> } />
 
                         <Route path="/login" element = { <Login/> } />
                         <Route path="/signup" element = { <Signup/> } />

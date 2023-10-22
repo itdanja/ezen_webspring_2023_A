@@ -13,6 +13,8 @@ export default function ExampleList( props ) {
 
             <Link to='/example/day03/Axios컴포넌트'>Axios컴포넌트</Link>
 
+            <Link to='/example/day04/상태컴포넌트'>상태컴포넌트</Link>
+
         </div>
     </> )
 }
