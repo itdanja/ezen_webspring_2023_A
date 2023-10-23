@@ -1,7 +1,10 @@
-
 import { useState } from 'react'
 
 export default function 상태관리컴포넌트( props ) {
+
+    const 상태 = useState( '유재석' );   console.log( 상태 );
+    const 상태값 = 상태[0];              console.log( 상태값 );
+    const 갱신함수 = 상태[1];             console.log( 갱신함수 );
 
     let value = 10;
     const [ text , setText ] = useState('');
