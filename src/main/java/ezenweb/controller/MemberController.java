@@ -63,6 +63,13 @@ public class MemberController {
         return  memberService.getMember();
     }
 
+    // 5. [G] 아이디 중복체크
+    @GetMapping("/idcheck")
+    public boolean idcheck( @RequestParam String memail ){
+        return memberService.idcheck( memail );
+    }
+
+
 }
 
 

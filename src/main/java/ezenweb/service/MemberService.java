@@ -110,12 +110,18 @@ public class MemberService {
     public MemberDto getMember(){
         // 1. 세션 호출
         Object session = request.getSession().getAttribute("loginDto");
+        System.out.println( session );
         // 2. 세션 검증
         if( session != null ){
             return (MemberDto) session;
         }
         return null;
     }
+    // 5. 아이디 중복 확인
+    public boolean idcheck( String memail ){
+        return memberEntityRepository.existsByMemail( memail  );
+    }
+
 }
 
 
