@@ -14,7 +14,7 @@
 
         - 라우터 : 가상 URL 만들기
             - 실제 라우터 : 연결 경로를 자동으로 전환해주는 기계
-            - 리액트 라우터 : 가상 경로[URL]를 만들어서 컴포넌트를 전환해주는 라이브러리
+            - 리액트 라우터 : 가상 경로[ HTTP URL]를 만들어서 컴포넌트를 전환 해주는 라이브러리
             - 설치
                 1. https://www.npmjs.com/
                 2. router-dom 검색
@@ -30,7 +30,7 @@
 
                 <BrowserRouter>
                     <Routes >
-                        <Route path='컴포넌트URL' element = { <컴포넌트명 /> } />
+                        <Route path='컴포넌트URL정의' element = { <컴포넌트명 /> } />
                     </Routes >
                 </BrowserRouter>
 

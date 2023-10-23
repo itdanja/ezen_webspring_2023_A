@@ -5,8 +5,8 @@ reactapp
         - favicon.ico
     - src
         - component
-            - example
-
+            - example 패키지
+            - member 패키지
             - Index.js
             - Main.js
             - Header.js
@@ -14,7 +14,7 @@ reactapp
 
         - index.js
             - 예제코드
-            - 프로젝트 고정
+            - 프로젝트 고정 [ 수정금지 ]
                 import Index from './component/Index'
                 root.render( <Index /> );
     - gitignore
