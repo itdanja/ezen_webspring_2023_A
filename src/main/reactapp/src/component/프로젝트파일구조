@@ -1,0 +1,23 @@
+reactapp
+    - node_modules
+    - public
+        - index.html
+        - favicon.ico
+    - src
+        - component
+            - example
+
+            - Index.js
+            - Main.js
+            - Header.js
+            - Footer.js
+
+        - index.js
+            - 예제코드
+            - 프로젝트 고정
+                import Index from './component/Index'
+                root.render( <Index /> );
+    - gitignore
+    - package.json
+    - package-lock.json
+    - README.md
