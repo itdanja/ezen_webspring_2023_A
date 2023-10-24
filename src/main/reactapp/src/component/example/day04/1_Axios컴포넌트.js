@@ -19,6 +19,11 @@
                         vs
                         axios.methodType( url ).then( 반환매개변수 => { } )
             3.
+                axios
+                    .methodType( url ,  data , headerOption  )
+                    .then( 반환매개변수 => { } )
+                    .catch( 오류매개변수=> { } )
+
                 - JSON객체를 HTTP BODY 형식으로 보낼때.
                 axios
                     .methodType( url ,  JSON객체  )
