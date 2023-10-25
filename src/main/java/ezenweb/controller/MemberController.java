@@ -47,23 +47,30 @@ public class MemberController {
     }
 
     // 5. [post] 로그인     get/post   요청(아이디/비밀번호) / 응답( 성공/실패)
-    @PostMapping("/login")
-    public boolean login( @RequestBody MemberDto memberDto  ) {
-        boolean result =  memberService.login(memberDto );
-        return result;
-    }
+//    @PostMapping("/login")
+//    public boolean login( @RequestBody MemberDto memberDto  ) {
+//        boolean result =  memberService.login(memberDto );
+//        return result;
+//    }
 
     // 6. [get] 로그아웃    get/post    요청/응답( 성공/실패)
-    @GetMapping("/logout")
-    public boolean logout() {
-        boolean result = memberService.logout();
-        return result;
-    }
+//    @GetMapping("/logout")
+//    public boolean logout() {
+//        boolean result = memberService.logout();
+//        return result;
+//    }
+
     // 2. [R] 회원정보 호출 [로그인된 회원호출 ] 세션을 구현 했을때 [  ]
+//    @GetMapping("/get")         // http://localhost:80/member/get?mno=1
+//    public MemberDto getMember( ){
+//        return  memberService.getMember();
+//    }
+
     @GetMapping("/get")         // http://localhost:80/member/get?mno=1
     public MemberDto getMember( ){
-        return  memberService.getMember();
+        return  memberService.getInfo();
     }
+
 
 }
 
