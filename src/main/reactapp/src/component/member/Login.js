@@ -15,7 +15,7 @@ export default function Login( props ){
             }; console.log(info);
             // 4. !! AXIOS  통신  [ *SPRING CONTROLLER 매핑 확인후 ]
             axios
-                .post('http://localhost:80/member/login' , info )
+                .post( '/member/login' , info )
                 .then( r => {
                     if( r.data ){
                         alert('로그인 성공');

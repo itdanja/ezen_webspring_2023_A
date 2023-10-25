@@ -17,11 +17,11 @@ export default function Signup( props ){
 
         // 3. 통신
         axios
-            .post('http://localhost:80/member/post' , info )
+            .post( '/member/post' , info )
             .then( r => {
                 if( r.data ){
                     alert('회원가입성공');
-                    window.location.href = '/login';
+                    window.location.href = '/login'; // get방식 요청
                 }
                 else{ alert('회원가입실패'); }
             })

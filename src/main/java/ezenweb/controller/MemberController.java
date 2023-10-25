@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 // DI(Dependency injection ) : 의존성 주입 [ 스프링이 객체를 관리하니까.. 스프링에게 객체를 의존(부탁) 해서 주입(가져오기) ]
 @RestController // 컨트롤러(@Component포함=스프링컨테이너(스프링 관리하는 메모리 공간) 빈(객체) 등록 ) + ResponseBody
 @RequestMapping("/member") // 클래스 매핑
-@CrossOrigin("http://localhost:3000") // 교차 리소스 공유 [해당 주소 = 리액트서버]
+// @CrossOrigin("http://localhost:3000")
+// HTTP헤더[ Access-Control-Allow-Origin 허용 ] 에 교차 리소스 공유 [해당 주소 = 리액트서버]
 public class MemberController {
     // Controller -> Service 요청
     // Controller <- Service 응답
