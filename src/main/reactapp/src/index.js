@@ -16,10 +16,15 @@ import CommentList from './component/example/day02/CommentList.js'
 
 import 라우터컴포넌트 from './component/example/day03/1_라우터컴포넌트'
 
+import 상태관리컴포넌트 from './component/example/day05/1_상태관리컴포넌트'
+import 생명주기컴포넌트 from './component/example/day05/2_생명주기컴포넌트'
+
 import Index from './component/Index'
 // 1. index.html에 <div id="root" > dom객체 호출
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render( <Index /> );
+//root.render( <Index /> );
+//root.render( <상태관리컴포넌트 /> );
+root.render( <생명주기컴포넌트 /> );
 
 // 2.리액트 랜더링( JSX --> HTML 변환 )
 // <React.StrictMode> : 예외처리 컴포넌트
@@ -31,6 +36,7 @@ root.render( <Index /> );
 //root.render( <React.StrictMode>  <CSS컴포넌트 /> </React.StrictMode> );
 //root.render( <React.StrictMode>  <CommentList /> </React.StrictMode> );
 //root.render( <React.StrictMode>  <라우터컴포넌트 /> </React.StrictMode> );
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
