@@ -116,6 +116,14 @@ public class MemberService {
         }
         return null;
     }
+    // 7. [R] [ 이메일 중복검사 ]
+    public boolean getFindMemail(String memail ){
+        // 1. 이메일을 이용한 엔티티 찾기...
+        // [ memberEntityRepository 추상메소드 정의  ]
+        boolean result = memberEntityRepository.existsByMemail( memail );
+        System.out.println("memberEntity = " + result);
+        return result;
+    }
 }
 
 

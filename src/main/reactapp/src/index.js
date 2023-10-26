@@ -22,9 +22,9 @@ import 생명주기컴포넌트 from './component/example/day05/2_생명주기�
 import Index from './component/Index'
 // 1. index.html에 <div id="root" > dom객체 호출
 const root = ReactDOM.createRoot(document.getElementById('root'));
-//root.render( <Index /> );
+root.render( <Index /> );
 //root.render( <상태관리컴포넌트 /> );
-root.render( <생명주기컴포넌트 /> );
+//root.render( <생명주기컴포넌트 /> );
 
 // 2.리액트 랜더링( JSX --> HTML 변환 )
 // <React.StrictMode> : 예외처리 컴포넌트
