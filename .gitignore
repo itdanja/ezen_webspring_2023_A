@@ -40,6 +40,4 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-/.idea/
-/.idea/
 /src/main/resources/static/
