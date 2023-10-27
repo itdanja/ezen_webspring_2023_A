@@ -46,12 +46,11 @@ public class MemberService {
     }
      */
 
-    // 3. [U] 회원정보 수정
+    // 3. [U] 회원정보 수정 [ mno , mname , mpassword ,  mphone   ]
     @Transactional
     public boolean updateMember(  MemberDto memberDto ){
         // 1. 수정할 엔티티 찾기 [ mno ]
-        Optional< MemberEntity > optionalMemberEntity =
-            memberEntityRepository.findById( memberDto.getMno() );
+        Optional< MemberEntity > optionalMemberEntity = memberEntityRepository.findById( memberDto.getMno() );
         // 2. optional클래스로 검색한 반환값 확인
         if( optionalMemberEntity.isPresent() ){
             // 3. 엔티티 꺼내기
@@ -69,12 +68,12 @@ public class MemberService {
     @Transactional
     public boolean deleteMember( int mno ){
         // 1. 삭제할 엔티티 찾기
-        Optional<MemberEntity> optionalMemberEntity
-                =memberEntityRepository.findById(mno);
+        Optional<MemberEntity> optionalMemberEntity = memberEntityRepository.findById(mno);
         // 2. 만약에 삭제할 엔티티가 반환/검색 존재하면
         if( optionalMemberEntity.isPresent() ){
             memberEntityRepository.deleteById( mno ); // 3.엔티티 삭제
             // 4. 삭제 성공시
+            logout();  // 로그아웃 함수 재사용
             return true;
         }
         return false;
