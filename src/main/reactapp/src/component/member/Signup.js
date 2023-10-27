@@ -48,7 +48,7 @@ export default function Signup( props ){
             <form>
                 이메일 <input type="text" placeholder='@포함 7~30글자' className='memail'
                         value = { memail } onChange={ emailInputChange }  />
-                <div>  {memailCheck } </div>
+                <div>  { memailCheck } </div>
 
                 비밀번호 <input type="password" placeholder='특수문자 조합 5~30글자'  className='mpassword' />
                 비밀번호 확인 <input type="password" placeholder='특수문자 조합 5~30글자' className='mpassword2' />
