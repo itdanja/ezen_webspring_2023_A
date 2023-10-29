@@ -30,19 +30,19 @@ export default function Login( props ){
     return(<>
         <div className="loginContainer">
             <h3> ReactEzen LOGIN </h3>
-            <form>
+            <form action="/member/login" method="post">
                 아이디 <input
                     type="text"
                     placeholder='email address'
-                    className='memail' />
+                    className='memail' name="memail" />
 
                 비밀번호 <input type="password"
                     placeholder='password'
-                    className='mpassword' />
+                    className='mpassword' name="mpassword" />
 
                 { /*Link컴포넌트 사용할려면 import */ }
                 <Link to=''>아이디찾기 </Link> <Link to=''> 비밀번호찾기 </Link>
-                <button onClick={ onLogin } type="button">로그인</button>
+                <button type="submit">로그인</button>
             </form>
         </div>
     </>)

@@ -17,7 +17,7 @@ public interface MemberEntityRepository extends JpaRepository<MemberEntity , Int
     // // 2. 필드명을 이용한 엔티티 존재 여부 검색   : boolean existsBy필드명( 매개변수 );
 
         // 1. 동일한 이메일 있을때 '엔티티' 반환 없을때 'NULL' 반환
-    //MemberEntity findByMemail( String memail ); // select * from member where memail = 변수
+    MemberEntity findByMemail( String memail ); // select * from member where memail = 변수
         // 2. 동일한 이메일 있을때 'Optional' 반환 없을때 'Optional' 반환
     //Optional<MemberEntity> findByMemail( String memail ); // select * from member where memail = 변수
         // 3. 동일한 이메일 있을떄 'TRUE' 없을때 FALSE 반환

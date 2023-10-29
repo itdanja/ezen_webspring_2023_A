@@ -24,6 +24,10 @@ import Login from './member/Login';
 import Signup from './member/Signup';
 import Info from './member/Info';
 
+
+import Error404 from './Error404';
+import Error403 from './Error403';
+
 export default function Index( props ){
     return(<>
         <div className="webContainer">
@@ -48,6 +52,10 @@ export default function Index( props ){
                         <Route path='/login' element = { <Login />} />
                         <Route path='/signup' element = { <Signup />} />
                         <Route path='/info' element = { <Info />} />
+
+
+                        <Route path="/*" element={<Error404 />} />
+                        <Route path="/error403" element={<Error403 />} />
 
                     </Routes >
                 <Footer />

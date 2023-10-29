@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import styles from '../css/header.css' // css파일 호출
 import axios from 'axios';
 import { useState , useEffect  } from 'react'
+import * as ErrorService from "../service/ErrorService.js"
+
 export default function Header( props ){
 
     // 1. 로그인 상태를 저장할 상태변수 선언
@@ -38,6 +40,12 @@ export default function Header( props ){
         } )
     } , [ ] )
     // -------------------------------------------------------------------------------//
+
+    function getInfo(){
+        axios.get('/info').then( r=>{ window.location.href='/info' })
+        .catch( e=>{  ErrorService.error( e.response.status ); })
+    }
+
     return(<>
         <header>
             <h2> <Link to='/'> 이젠리액트 </Link> </h2>
@@ -56,7 +64,7 @@ export default function Header( props ){
                       </>)
                     :(<>
                         <li> { login.memail }님 </li>
-                        <li> <Link to='/info'> 내정보 </Link></li>
+                        <li> <span onClick={ getInfo }> 내정보 </span></li>
                         <li> <div onClick={ logOut }> 로그아웃 </div></li>
                       </>)
                 }

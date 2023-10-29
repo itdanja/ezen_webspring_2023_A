@@ -49,6 +49,8 @@ export default function Info( props ){ // 로그인 상태별로 , 회원권한(
             mpassword : newPassword.mpassword , // // 수정할 값   새로 입력받은 패스워드를 전송
             mphone : member.mphone // 수정할 값
         }; console.log( info ); // 수정할때 필요한 정보들이 저장된 객체 확인
+
+        // [과제]수정 REST API
     }
 
     return(<>
