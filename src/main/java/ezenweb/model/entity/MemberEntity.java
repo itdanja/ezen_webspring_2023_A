@@ -3,6 +3,7 @@ package ezenweb.model.entity;
 import ezenweb.model.dto.MemberDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Entity // 해당 클래스를 db테이블과 매핑 [ 엔티티클래스 <----> db테이블 ( 엔티티 객체 1개 <---> db테이블내 레코드 1개  ) ]
 @Table( name = "member") // db테이블명 정의 [ 생략시 해당 클래스명이 db테이블 명으로 자동 생성 ]
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @DynamicInsert
 @Getter @Setter @ToString @Builder
 public class MemberEntity extends BaseTime {
     @Id // 해당 필드를 pk로 선정
@@ -29,7 +30,7 @@ public class MemberEntity extends BaseTime {
     @Column( length = 13 , nullable = false , unique = true ) // 해당 필드 선정 [ 최대13글자 , not null , unique ]
     private String mphone;      // 5.연락처
     @Column // 해당 필드 선정
-    @ColumnDefault( "'user'" ) // ColumnDefault("초기값") ColumnDefault("'문자열경우'")
+    @ColumnDefault( "'ROLE_USER'" ) // ColumnDefault("초기값") ColumnDefault("'문자열경우'")
     private String mrole;       // 6.회원등급( 일반회원=user , 관리자회원=admin )
     // [ BaseTime 클래스가 상속해주는 필드 : 1.회원가입일자 2.회원정보수정일 ]
 

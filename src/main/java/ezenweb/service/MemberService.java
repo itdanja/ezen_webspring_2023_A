@@ -37,14 +37,9 @@ public class MemberService implements UserDetailsService {
     public MemberDto getMember(){
         // ! : 시큐리티 사용하기전에는 서블릿 세션을 이용한 로그인상태 저장
         // 시큐리티 사용할때는 일단 서블릿 세션이 아니고 시큐리티 저장소 이용.
-        System.out.println( "시큐리티에 저장된 세션 정보 저장소 : "
-                + SecurityContextHolder.getContext() );
-
-        System.out.println( "시큐리티에 저장된 세션 정보 저장소에 저장된 인증 : "
-                +SecurityContextHolder.getContext().getAuthentication() );
-
-        System.out.println( "시큐리티에 저장된 세션 정보 저장소에 저장된 인증 호출 : "
-                + SecurityContextHolder.getContext().getAuthentication().getPrincipal() ); // 해당 서비스를 호출한 HTTP
+        //System.out.println( "시큐리티에 저장된 세션 정보 저장소 : " + SecurityContextHolder.getContext() );
+        //System.out.println( "시큐리티에 저장된 세션 정보 저장소에 저장된 인증 : " +SecurityContextHolder.getContext().getAuthentication() );
+        //System.out.println( "시큐리티에 저장된 세션 정보 저장소에 저장된 인증 호출 : "+ SecurityContextHolder.getContext().getAuthentication().getPrincipal() ); // 해당 서비스를 호출한 HTTP
 
         // * 인증에 성공한 정보 호출 [ 세션 호출 ]
         Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -59,7 +54,7 @@ public class MemberService implements UserDetailsService {
 
     // 8.
     @Override
-    public UserDetails loadUserByUsername(String memail ) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername( String memail ) throws UsernameNotFoundException {
         // * login페이지에서 form을 통해 전송된 아이디 받고 (패스워드 없음)
         System.out.println("loadUserByUsername username = " + memail );
         // - . p.684 인증 절차 순서
@@ -73,7 +68,8 @@ public class MemberService implements UserDetailsService {
         UserDetails userDetails = User.builder()
                 .username( memberEntity.getMemail() )           // 찾은 사용자 정보의 아이디
                 .password( memberEntity.getMpassword() )        // 찾은 사용자 정보의 패스워드
-                .authorities("ROLE_USER").build();              // 찾은 사용자 정보의 권한
+                .authorities( memberEntity.getMrole() )         // 찾은 사용자 정보의 권한
+                .build();
         return userDetails;
     }
     // ------------------------------------------------ //
