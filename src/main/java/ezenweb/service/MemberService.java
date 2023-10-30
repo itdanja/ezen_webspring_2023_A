@@ -4,6 +4,8 @@ import ezenweb.model.dto.MemberDto;
 import ezenweb.model.entity.MemberEntity;
 import ezenweb.model.repository.MemberEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,13 +32,49 @@ public class MemberService implements UserDetailsService {
     // @Autowired : 사용불가 ( 스프링 컨테이너에 등록 안된 빈(객체) 이므로 불가능 )
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    // 9. 시큐리티 사용시 인증정보[로그인상태] 호출
+    @Transactional
+    public MemberDto getMember(){
+        // ! : 시큐리티 사용하기전에는 서블릿 세션을 이용한 로그인상태 저장
+        // 시큐리티 사용할때는 일단 서블릿 세션이 아니고 시큐리티 저장소 이용.
+        System.out.println( "시큐리티에 저장된 세션 정보 저장소 : "
+                + SecurityContextHolder.getContext() );
+
+        System.out.println( "시큐리티에 저장된 세션 정보 저장소에 저장된 인증 : "
+                +SecurityContextHolder.getContext().getAuthentication() );
+
+        System.out.println( "시큐리티에 저장된 세션 정보 저장소에 저장된 인증 호출 : "
+                + SecurityContextHolder.getContext().getAuthentication().getPrincipal() ); // 해당 서비스를 호출한 HTTP
+
+        // * 인증에 성공한 정보 호출 [ 세션 호출 ]
+        Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println( o.toString() );
+        // 1. 만약에 인증이 실패했을때/없을때  anonymousUser
+        if( o.equals("anonymousUser")){ return null; } // 로그인 안했어..
+        // 2. 인증결과에 저장된 UserDetails 로 타입 반환
+        UserDetails userDetails = (UserDetails)o;
+        // 3. UserDetails의 정보를 memberDto에 담아서 반환
+        return MemberDto.builder().memail( userDetails.getUsername() ).build();
+    }
+
+    // 8.
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("loadUserByUsername username = " + username);
+    public UserDetails loadUserByUsername(String memail ) throws UsernameNotFoundException {
+        // * login페이지에서 form을 통해 전송된 아이디 받고 (패스워드 없음)
+        System.out.println("loadUserByUsername username = " + memail );
         // - . p.684 인증 절차 순서
-        // 1. 사용자의 아이디만으로 사용자 정보를 로딩 [ 불러오기 ] - p.728
+        // 1. 사용자의 아이디만으로 사용자 정보[엔티티]를 로딩 [ 불러오기 ] - p.728
+        MemberEntity memberEntity =  memberEntityRepository.findByMemail( memail );
+            // 1-2. 없는 아이디 이면
+                //  throw : 예외처리 던지기 //  new UsernameNotFoundException() : username 없을때 사용하는 예외클래스
+        if( memberEntity == null ){ throw new UsernameNotFoundException("없는 아이디입니다"); }
         // 2. 로딩[불러오기]된 사용자의 정보를 이용해서 패스워드를 검증
-        return null;
+            // 2-1 있는 아이디 이면
+        UserDetails userDetails = User.builder()
+                .username( memberEntity.getMemail() )           // 찾은 사용자 정보의 아이디
+                .password( memberEntity.getMpassword() )        // 찾은 사용자 정보의 패스워드
+                .authorities("ROLE_USER").build();              // 찾은 사용자 정보의 권한
+        return userDetails;
     }
     // ------------------------------------------------ //
     // Controller -> Service -> Repository 요청
@@ -103,7 +141,8 @@ public class MemberService implements UserDetailsService {
         if( optionalMemberEntity.isPresent() ){
             memberEntityRepository.deleteById( mno ); // 3.엔티티 삭제
             // 4. 삭제 성공시
-            logout();  // 로그아웃 함수 재사용
+            //
+            // logout();  // 로그아웃 함수 재사용
             return true;
         }
         return false;
@@ -131,7 +170,8 @@ public class MemberService implements UserDetailsService {
             }
         return false;
     }
-    // 6.
+    /*
+    // 6. 로그아웃
     public boolean logout() {
         request.getSession().setAttribute( "loginDto" , null );
         return true;
@@ -146,6 +186,8 @@ public class MemberService implements UserDetailsService {
         }
         return null;
     }
+    */
+
     // 7. [R] [ 이메일 중복검사 ]
     public boolean getFindMemail(String memail ){
         // 1. 이메일을 이용한 엔티티 찾기...

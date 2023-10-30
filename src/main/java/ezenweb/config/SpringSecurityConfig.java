@@ -27,7 +27,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("mpassword");    // 7. 로그인시 입력받은 비밀번호의 변수명 정의
         http.csrf().disable(); // ---- 모든 HTTP POST/PUT 에서 csrf 사용안함.
         // 특정 HTTP에서만 CSRF 사용안함 [ POST,PUT ]
-        // http.csrf().ignoringAntMatchers("/member/post"); // controller 매핑 주소
+        //http.csrf().ignoringAntMatchers("/member/post"); // controller 매핑 주소
+        //http.csrf().ignoringAntMatchers("/member/login"); //  매핑 주소
     }
     // p.689 : configure( AuthenticationManagerBuilder auth) : 웹 시큐리티 인증 담당하는 메소드
     @Autowired
