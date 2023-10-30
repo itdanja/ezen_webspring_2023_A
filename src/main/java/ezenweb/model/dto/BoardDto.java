@@ -4,16 +4,23 @@ import ezenweb.model.entity.BoardEntity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Map;
 
 @AllArgsConstructor@NoArgsConstructor
 @Getter@Setter@ToString@Builder
-public class BoardDto {
+public class BoardDto  {
+
+
     private int bno;
     private String btitle;
     private String bcontent;

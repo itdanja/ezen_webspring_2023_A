@@ -4,6 +4,8 @@ import ezenweb.model.dto.MemberDto;
 import ezenweb.model.entity.MemberEntity;
 import ezenweb.model.repository.MemberEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -12,16 +14,78 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequestEntityConverter;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service//서비스(@Component포함)
-public class MemberService implements UserDetailsService {
+public class MemberService implements UserDetailsService , OAuth2UserService<OAuth2UserRequest , OAuth2User>   {
+
+    // ------------------------------------------------- //
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        // 1. 인증[로그인] 결과 토큰 확인
+        // 2. 전달받은 토큰을 이용한 회원정보 요청
+        OAuth2UserService oAuth2UserService = new DefaultOAuth2UserService();   ;
+        OAuth2User oAuth2User = oAuth2UserService.loadUser( userRequest );
+        // 3. 클라이언트ID 식별 [ 응답된 JSON 구조 다르기 때문에 클라이언트ID별(구글VS카카오VS네이버) 로 처리  ]
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        String email = null;
+        String name = null;
+        // oAuth2User.getAttributes()  map< String , Object >구조
+        if( registrationId.equals("kakao") ) { // 만약에 카카오 회원이면
+            // 카카오 Attributes = {id=206798674 , kakao_account={profile_nickname_needs_agreement=false, profile={nickname=김현수} , email=itdanja@kakao.com} }
+            Map<String , Object >  kakao_account = (Map<String , Object>)oAuth2User.getAttributes().get("kakao_account");
+            Map<String , Object > profile = (Map<String , Object>) kakao_account.get("profile");
+            email = (String)kakao_account.get("email");
+            name = (String)profile.get("nickname");
+        }else if( registrationId.equals("naver")){ // 만약에 네이버 회원이면
+            // 네이버 Attributes {resultcode=00, message=success, response={id=Hq9vZhky2c775-RmPtIeB95Rz2dnBbYgKTJPAHSsvDQ, nickname=아이티단자, email=kgs2072@naver.com}}
+            Map<String , Object> response = (Map<String , Object>)oAuth2User.getAttributes().get("response");
+            email = (String) response.get("email");
+            name = (String) response.get("nickname");
+        }else if( registrationId.equals("google")){ // 만약에 구글 회원이면
+            // 구글 Attributes = {sub=114044778334166488538, name=아이티단자, given_name=단자,email=kgs2072@naver.com}
+            email =  (String)oAuth2User.getAttributes().get( "email" );
+            name =  (String)oAuth2User.getAttributes().get( "name" );
+        }
+
+        // 인가 객체 [ OAuth2User----> MemberDto 통합Dto( 일반+oauth) ]
+        MemberDto memberDto = new MemberDto();
+        memberDto.setMemail( email );
+        memberDto.setMname( name );
+        // 1. DB 저장하기 전에 해당 이메일로 된 이메일 존재하는지 검사
+        MemberEntity entity = memberEntityRepository.findByMemail( email );
+        if( entity == null ){ // 첫방문
+            // DB 처리 [ 첫 방문시에만 db등록  , 두번째 방문시 부터는 db수정  ]
+            memberDto.setMrole("ROLE_USER"); // DB에 저장할 권한명
+            entity = memberEntityRepository.save( memberDto.toEntity() );
+        }else{// 두번째 방문 이상 수정 처리
+            entity.setMname( name );
+        }
+        memberDto.set소셜회원정보( oAuth2User.getAttributes() );
+
+        List<GrantedAuthority> 권한목록 = new ArrayList<>();
+        memberDto.set권한목록( 권한목록 );
+
+        권한목록.add( new SimpleGrantedAuthority( entity.getMrole() ) );
+        권한목록.add( new SimpleGrantedAuthority("ROLE_SNS") );
+
+        memberDto.setMno( entity.getMno() ); // 위에 생성된 혹은 검색된 엔티티의 회원번호
+        return memberDto;
+    }
+
     // ------------------------------------------------ //
         // p. 687
         // 1. UserDetailsService 구현체
@@ -65,12 +129,16 @@ public class MemberService implements UserDetailsService {
         if( memberEntity == null ){ throw new UsernameNotFoundException("없는 아이디입니다"); }
         // 2. 로딩[불러오기]된 사용자의 정보를 이용해서 패스워드를 검증
             // 2-1 있는 아이디 이면
-        UserDetails userDetails = User.builder()
-                .username( memberEntity.getMemail() )           // 찾은 사용자 정보의 아이디
-                .password( memberEntity.getMpassword() )        // 찾은 사용자 정보의 패스워드
-                .authorities( memberEntity.getMrole() )         // 찾은 사용자 정보의 권한
+
+        List<GrantedAuthority> 권한목록 = new ArrayList<>();
+        권한목록.add( new SimpleGrantedAuthority(memberEntity.getMrole() ) );
+
+        MemberDto memberDto = MemberDto.builder()
+                .memail( memberEntity.getMemail() )           // 찾은 사용자 정보의 아이디
+                .mpassword( memberEntity.getMpassword() )        // 찾은 사용자 정보의 패스워드
+                .권한목록( 권한목록  )         // 찾은 사용자 정보의 권한
                 .build();
-        return userDetails;
+        return memberDto;
     }
     // ------------------------------------------------ //
     // Controller -> Service -> Repository 요청
