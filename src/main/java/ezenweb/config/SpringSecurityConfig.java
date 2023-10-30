@@ -16,8 +16,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //super.configure(http);
-        http.formLogin();
-        http.csrf().disable(); // ---- csrf 사용안함.
+        http.formLogin()                      // 1. 시큐리티 로그인 사용 [ form 전송 ]
+                .loginPage("/login")          // 2. 시큐리티 로그인으로 사용할 VIEW페이지의 HTTP 주소 정의
+                .loginProcessingUrl("/member/login") // 3.  시큐리티 로그인(인증)처리 요청시 사용할 HTTP 주소 정의
+                // 시큐리티 사용하기전에 MemberController 해서 정의한 로그인/로그아웃 함수를 없애기
+                // HTTP '/member/login' POST 요청시 ---> MemberService의 loadUserByUsername 로 이동.
+                .defaultSuccessUrl("/")         // 4. 만약에 로그인 성공시 이동할 HTTP 주소
+                .failureUrl("/login") // 5. 만약에 로그인 실패시 이동할 HTTP 주소
+                .usernameParameter("memail")        // 6. 로그인시 입력받은 아이디의 변수명 정의
+                .passwordParameter("mpassword");    // 7. 로그인시 입력받은 비밀번호의 변수명 정의
+        http.csrf().disable(); // ---- 모든 HTTP POST/PUT 에서 csrf 사용안함.
+        // 특정 HTTP에서만 CSRF 사용안함 [ POST,PUT ]
+        // http.csrf().ignoringAntMatchers("/member/post"); // controller 매핑 주소
     }
     // p.689 : configure( AuthenticationManagerBuilder auth) : 웹 시큐리티 인증 담당하는 메소드
     @Autowired
@@ -26,8 +36,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure( AuthenticationManagerBuilder auth) throws Exception {
         // super.configure(auth);
-        auth.userDetailsService( memberService )
-                .passwordEncoder( new BCryptPasswordEncoder() );
+        auth.userDetailsService( memberService ).passwordEncoder( new BCryptPasswordEncoder() );
         // auth.userDetailsService( userDetailsService 구현체  ).passwordEncoder( 사용할 암호화 객체 )
     }
 }

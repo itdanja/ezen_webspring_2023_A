@@ -32,18 +32,11 @@ public class MemberService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         System.out.println("loadUserByUsername username = " + username);
-
-        // - [예시] 임의의 아이디 와 패스워드 넣고 UserDetails객체 만들기
-        UserDetails userDetails = User.builder()
-                .username("qweqwe") // 아이디
-                //.password("1234") // [암호화 없음] 패스워드
-                .password( passwordEncoder.encode("1234") )  // [암호화 있음] 패스워드
-                .authorities("ROLE_USER") // 인가(허가나 권한) 정보
-                .build();
-
-        return userDetails;
+        // - . p.684 인증 절차 순서
+        // 1. 사용자의 아이디만으로 사용자 정보를 로딩 [ 불러오기 ] - p.728
+        // 2. 로딩[불러오기]된 사용자의 정보를 이용해서 패스워드를 검증
+        return null;
     }
     // ------------------------------------------------ //
     // Controller -> Service -> Repository 요청
@@ -164,6 +157,16 @@ public class MemberService implements UserDetailsService {
 }
 
 
+/*
+    // - [예시] 임의의 아이디 와 패스워드 넣고 UserDetails객체 만들기
+    UserDetails userDetails = User.builder()
+            .username("qweqwe") // 아이디
+            //.password("1234") // [암호화 없음] 패스워드
+            .password( passwordEncoder.encode("1234") )  // [암호화 있음] 패스워드
+            .authorities("ROLE_USER") // 인가(허가나 권한) 정보
+            .build();
+
+ */
 
 
 
