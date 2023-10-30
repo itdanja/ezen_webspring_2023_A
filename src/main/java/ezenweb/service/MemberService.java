@@ -4,6 +4,12 @@ import ezenweb.model.dto.MemberDto;
 import ezenweb.model.entity.MemberEntity;
 import ezenweb.model.repository.MemberEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +19,33 @@ import java.util.List;
 import java.util.Optional;
 
 @Service//서비스(@Component포함)
-public class MemberService {
+public class MemberService implements UserDetailsService {
+    // ------------------------------------------------ //
+        // p. 687
+        // 1. UserDetailsService 구현체
+        // 2. 시큐리티 인증 처리 해주는 메소드 구현 [ loadUserByUsername ]
+        // 3. loadUserByUsername 메소드는 무조건(꼭) UserDetails객체를 반환해야한다.
+        // 4. UserDetails객체를 이용한 패스워드 검증과  사용자 권한을 확인 하는 동작(메소드)
+
+    // @Autowired : 사용불가 ( 스프링 컨테이너에 등록 안된 빈(객체) 이므로 불가능 )
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        System.out.println("loadUserByUsername username = " + username);
+
+        // - [예시] 임의의 아이디 와 패스워드 넣고 UserDetails객체 만들기
+        UserDetails userDetails = User.builder()
+                .username("qweqwe") // 아이디
+                //.password("1234") // [암호화 없음] 패스워드
+                .password( passwordEncoder.encode("1234") )  // [암호화 있음] 패스워드
+                .authorities("ROLE_USER") // 인가(허가나 권한) 정보
+                .build();
+
+        return userDetails;
+    }
+    // ------------------------------------------------ //
     // Controller -> Service -> Repository 요청
     // Controller <- Service <- Repository 응답
     @Autowired
@@ -22,6 +54,11 @@ public class MemberService {
     // 1. [C] 회원가입
     @Transactional // 트랜잭션 : 여러개 SQL를 하나의 최소 단위 처리 [ 성공 , 실패  !! 함수내 일부 SQL만 성공x]
     public boolean postMember( MemberDto memberDto){
+        // ----------- 암호화 -------------- //
+            // - 입력받은 비밀번호[ memberDto.getMpassword() ]를 암호화 해서 다시 memberDto에 저장
+        memberDto.setMpassword( passwordEncoder.encode( memberDto.getMpassword() ) );
+            // memberDto.getMpassword() -> passwordEncoder.encode() -> memberDto.setMpassword()
+        // -------------------------------- //
         // 1. dto -> entity 변경후 repository 통한 insert 후 결과 entity 받기
         MemberEntity memberEntity = memberEntityRepository.save( memberDto.toEntity() );
         // 2. insert 된 엔티티 확인후 성공/실패 유무
@@ -82,6 +119,7 @@ public class MemberService {
     // 로그인했고 안했고 상태 저장하는곳 => request객체도 스프링 컨테이너 등록 상태.
     @Autowired
     private HttpServletRequest request;
+
     // 5.
     @Transactional
     public boolean login( MemberDto memberDto  ) {
