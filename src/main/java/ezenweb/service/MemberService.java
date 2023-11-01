@@ -62,9 +62,10 @@ public class MemberService implements UserDetailsService {
         MemberEntity memberEntity =  memberEntityRepository.findByMemail( memail );
             // 1-2. 없는 아이디 이면
                 //  throw : 예외처리 던지기 //  new UsernameNotFoundException() : username 없을때 사용하는 예외클래스
-        if( memberEntity == null ){ throw new UsernameNotFoundException("없는 아이디입니다"); }
-        // 2. 로딩[불러오기]된 사용자의 정보를 이용해서 패스워드를 검증
-            // 2-1 있는 아이디 이면
+        if( memberEntity == null ){
+            throw new UsernameNotFoundException("없는 아이디입니다");
+        }
+        // 2. 로딩[불러오기]된 사용자의 정보를 이용해서 패스워드를 검증 // 2-1 있는 아이디 이면
         UserDetails userDetails = User.builder()
                 .username( memberEntity.getMemail() )           // 찾은 사용자 정보의 아이디
                 .password( memberEntity.getMpassword() )        // 찾은 사용자 정보의 패스워드
