@@ -4,6 +4,7 @@ import example.day06.NoteDto;
 import example.day06.NoteEntity;
 import ezenweb.model.dto.BoardDto;
 import ezenweb.model.entity.BoardEntity;
+import ezenweb.model.entity.MemberEntity;
 import ezenweb.model.repository.BoardEntityRepository;
 import ezenweb.model.repository.MemberEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,27 +19,42 @@ import java.util.Optional;
 
 @Service
 public class BoardService {
-    @Autowired
-    private BoardEntityRepository boardEntityRepository;
-
-    @Autowired
-    private MemberService memberService;
-
+    @Autowired private BoardEntityRepository boardEntityRepository;
+    @Autowired private MemberService memberService;
+    @Autowired private MemberEntityRepository memberEntityRepository;
     // 1.
     @Transactional // 함수내 여럿 SQL를 하나의 일처리 단위로 처리
-    public boolean write( BoardDto boardDto ){
+    public boolean write( BoardDto boardDto  ){
+        /*
+            MemberEntity                                BoardEntity
+             [p]  mno                                       [p] bno
+                                <--- 단방향 --               [f] mno    @ManyToOne  MemberEntity
 
-        // 로그인 된 회원번호 가져오기
+                                ---- 양방향 -->
+             @OneToMany(mappedBy = "memberEntity")
+             []List<BoardEntity> boardEntityList
 
-
-
-        // 1. dto -> entity 변환후 저장된 엔티티 반환
-        BoardEntity boardEntity
-                = boardEntityRepository.save( boardDto.saveToEntity() );
-        // 2.
-
-        // 양방향 관계
-
+         */
+        // 1. FK 키의 엔티티를 찾는다.
+            // [ FK로 사용할 PK를 알고 있어야 있어야한다. 세션,매개변수 가져오기 ]
+            // 1. 예 ) 로그인된 회원의 pk번호 호출
+            // memberService.getMember().getMno();
+            // 2. 회원pk번호를 가지고 pk엔티티 찾기
+        // ================================= 단방향 ================================================= //
+        Optional<MemberEntity> memberEntityOptional
+                = memberEntityRepository.findById( memberService.getMember().getMno() );
+            // 3. 유효성검사 [ 로그인이 안된상태 글쓰기 실패 ]
+        if( !memberEntityOptional.isPresent() ){ return false;}
+            // 4. 단방향 저장  [ 게시물 엔티티에 회원엔티티 넣어주기 ]
+                // 1. 게시물 생성 [ fk에 해당하는 레코드 생성 ]
+        BoardEntity boardEntity  = boardEntityRepository.save( boardDto.saveToEntity() );
+                // 2. 생성된 게시물에 작성자엔티티 넣어주기 [ fk 넣어주기 ]
+        boardEntity.setMemberEntity( memberEntityOptional.get() );
+        // ================================= 단방향 end ================================================= //
+        // ================================= 양방향 ================================================= //
+        // 5. 양방향 저장 [ 회원엔티티에 게시물 엔티티 넣어주기 ]
+        memberEntityOptional.get().getBoardEntityList().add( boardEntity );
+        // ================================= 양방향 end ================================================= //
         if( boardEntity.getBno() >= 1) { return true; } return false;
     }
     // 2.

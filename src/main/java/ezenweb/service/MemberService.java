@@ -49,7 +49,7 @@ public class MemberService implements
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // 9. 시큐리티 사용시 인증정보[로그인상태] 호출
-    @Transactional
+    @Transactional // 1. header.js [ axios ] //2. boardService [ write ]
     public MemberDto getMember(){
         // ! : 시큐리티 사용하기전에는 서블릿 세션을 이용한 로그인상태 저장
         // 시큐리티 사용할때는 일단 서블릿 세션이 아니고 시큐리티 저장소 이용.
@@ -62,10 +62,12 @@ public class MemberService implements
         System.out.println( o.toString() );
         // 1. 만약에 인증이 실패했을때/없을때  anonymousUser
         if( o.equals("anonymousUser")){ return null; } // 로그인 안했어..
-        // 2. 인증결과에 저장된 UserDetails 로 타입 반환
-        UserDetails userDetails = (UserDetails)o;
-        // 3. UserDetails의 정보를 memberDto에 담아서 반환
-        return MemberDto.builder().memail( userDetails.getUsername() ).build();
+        // 2. 인증결과 에 저장된 UserDetails 로 타입 반환
+        UserDetails userDetails = (UserDetails)o; // UserDetails : 로그인 결과를 가지고 있는 객체
+            // 로그인상태에 필요한 데이터 구성
+            MemberEntity memberEntity = memberEntityRepository.findByMemail( userDetails.getUsername() ) ;
+        // 3. UserDetails의 정보를 memberDto에 담아서 반환 [ 로그인된 회원의 아이디와 회원번호 반환 ]
+        return MemberDto.builder().memail( memberEntity.getMemail() ).mno( memberEntity.getMno() ).build();
     }
 
 

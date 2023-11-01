@@ -33,7 +33,7 @@ public class BoardEntity extends BaseTime { // 테이블 설계
 
     // FK
     @ToString.Exclude // toString() 함수에서 제외되는 필
-    @JoinColumn( name="mno_fk" ) // FK 필드로 사용 ( name="fk필드명" )
+    @JoinColumn( name="mno" ) // FK 필드로 사용 ( name="fk필드명" )
     @ManyToOne // 다수가 하나에게  [ FK ] // 실제 DB에는 엔티티의 ID(PK) 만 저장
     private MemberEntity memberEntity;
 
