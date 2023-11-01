@@ -55,6 +55,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         //http.csrf().ignoringAntMatchers("/member/post"); // controller 매핑 주소
         //http.csrf().ignoringAntMatchers("/member/login"); //  매핑 주소
 
+        // 4. Oauth2 커스텀
+        http.oauth2Login()
+                .loginPage("/login") // oauth2 로그인할 view페이지 HTTP 주소
+                .userInfoEndpoint().userService( memberService); // <로그인을 성공> oauth2 유저정보를 받을 서비스 선택
     }
     // p.689 : configure( AuthenticationManagerBuilder auth) : 웹 시큐리티 인증 담당하는 메소드
 

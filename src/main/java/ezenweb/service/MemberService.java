@@ -12,6 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +26,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service//서비스(@Component포함)
-public class MemberService implements UserDetailsService {
-    // ------------------------------------------------ //
+public class MemberService implements
+        UserDetailsService,  // 일반회원 서비스 : loadUserByUsername 메소드 구현 [ 로그인처리하는메소드 ]
+        OAuth2UserService<OAuth2UserRequest , OAuth2User > // Oauth2 회원 서비스 : loadUser 메소드 구현 [oauth2로그인된 회원정보를 받는 메소드]
+{
+    // ========================================================= 2.Oauth2 회원 ============================================== //
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        // 1. 로그인을 성공한 oauth2 사용자정보(동의항목)의 정보 호출
+        OAuth2User oAuth2User = new DefaultOAuth2UserService().loadUser( userRequest );
+            System.out.println("oAuth2User = " + oAuth2User);
+        return null;
+    }
+    // ========================================================= 1.일반회원 ============================================== //
         // p. 687
         // 1. UserDetailsService 구현체
         // 2. 시큐리티 인증 처리 해주는 메소드 구현 [ loadUserByUsername ]
@@ -52,6 +68,8 @@ public class MemberService implements UserDetailsService {
         return MemberDto.builder().memail( userDetails.getUsername() ).build();
     }
 
+
+
     // 8.
     @Override
     public UserDetails loadUserByUsername( String memail ) throws UsernameNotFoundException {
@@ -73,7 +91,9 @@ public class MemberService implements UserDetailsService {
                 .build();
         return userDetails;
     }
-    // ------------------------------------------------ //
+    // ========================================================= ============ ============================================== //
+
+
     // Controller -> Service -> Repository 요청
     // Controller <- Service <- Repository 응답
     @Autowired

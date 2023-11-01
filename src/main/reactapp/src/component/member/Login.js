@@ -40,6 +40,8 @@ export default function Login( props ){
 
                 <button type="button" onClick={ onLogin }>로그인</button>
 
+                <a className='oauthBtn' href="/oauth2/authorization/kakao">카카오 1초 로그인 </a>
+
             </form>
         </div>
     </>)
