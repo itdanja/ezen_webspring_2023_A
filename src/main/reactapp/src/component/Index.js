@@ -24,6 +24,9 @@ import Login from './member/Login';
 import Signup from './member/Signup';
 import Info from './member/Info';
 
+import BoardList from './board/BoardList';
+import BoardWrite from './board/BoardWrite';
+
 export default function Index( props ){
     return(<>
         <div className="webContainer">
@@ -48,6 +51,9 @@ export default function Index( props ){
                         <Route path='/login' element = { <Login />} />
                         <Route path='/signup' element = { <Signup />} />
                         <Route path='/info' element = { <Info />} />
+
+                        <Route path='/board/list' element = { <BoardList />} />
+                        <Route path='/board/write' element = { <BoardWrite />} />
 
                     </Routes >
                 <Footer />
