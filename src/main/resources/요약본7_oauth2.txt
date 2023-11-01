@@ -12,15 +12,17 @@
 
 ====================== 각 소셜 회사별 설정 ========================
 -카카오 로그인 개발자 설정 
-	1. 카카오개발자센터 
-	2. 애플리케이션 신청 
+	1. 카카오개발자센터 로그인
+	2. 애플리케이션 신청
+	3. 앱키
+	    REST KEY : 50fc1c18af02d58d843af3f625b5f621
 	3. 플랫폼 : 사이트 도메인 등록 
-		http://localhost
+		http://localhost:80
 	4. 카카오로그인 
 		활성화 : ON
 		Redirect URI : 
 			- 카카오 로그인에서 사용할 주소 설정 
-			http://localhost/login/oauth2/code/kakao
+			http://localhost:80/login/oauth2/code/kakao
 	5. 동의항목
 		profile_nickname 필수 동의
 		account_email 필수 동의
@@ -29,6 +31,47 @@
 			- 코드 생성 
 			코드 : f7N8WMOx3a8JNtTn3LsL2G8EaAHYCsWo
 			활성화 상태 : 사용함
--네이버
 
--구글 
+-네이버 [ 배포X -> 사업자번호신청 후 가능 ]
+    1. 네이버개발자센터 로그인
+    2. 애플리케이션 등록
+        - 회사명/번호/핸드폰인증 등등 : 임의값
+        1. 애플리케이션 이름 : 아무거나
+        2. 사용API 네이버로그인
+            연락처 이메일 주소 email
+            별명 nickname
+        3. 서비스 환경 :  PC웹
+            서비스 URL :
+                http://localhost:80
+            Callback URL :
+                http://localhost:80/login/oauth2/code/naver
+    3. 내 애플리케이션
+        1. 원하는 애플리케이션 선택
+            애플리케이션 정보
+                Client ID : ZiyCyM98xpX2tYPstd66
+                Client Secret : YxqLXGnJRR
+-구글
+    1. 구글 클라우드 플랫폼
+    2. 구글 로그인
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

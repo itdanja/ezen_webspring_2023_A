@@ -41,7 +41,8 @@ export default function Login( props ){
                 <button type="button" onClick={ onLogin }>로그인</button>
 
                 <a className='oauthBtn' href="/oauth2/authorization/kakao">카카오 1초 로그인 </a>
-
+                <a className='oauthBtn' href="/oauth2/authorization/naver">네이버 1초 로그인 </a>
+                <a className='oauthBtn' href="/oauth2/authorization/google">구글 1초 로그인 </a>
             </form>
         </div>
     </>)
