@@ -20,13 +20,25 @@ import java.util.Optional;
 public class BoardService {
     @Autowired
     private BoardEntityRepository boardEntityRepository;
+
+    @Autowired
+    private MemberService memberService;
+
     // 1.
     @Transactional // 함수내 여럿 SQL를 하나의 일처리 단위로 처리
     public boolean write( BoardDto boardDto ){
+
+        // 로그인 된 회원번호 가져오기
+
+
+
         // 1. dto -> entity 변환후 저장된 엔티티 반환
         BoardEntity boardEntity
                 = boardEntityRepository.save( boardDto.saveToEntity() );
         // 2.
+
+        // 양방향 관계
+
         if( boardEntity.getBno() >= 1) { return true; } return false;
     }
     // 2.

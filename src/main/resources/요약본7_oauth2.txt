@@ -1,0 +1,29 @@
+
+1. oauth2 라이브러 설치
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+2. oauth2 와 카카오 연동
+    - application.properties 에서 작업
+
+
+====================== 각 소셜 회사별 설정 ========================
+-카카오 로그인 개발자 설정 
+	1. 카카오개발자센터 
+	2. 애플리케이션 신청 
+	3. 플랫폼 : 사이트 도메인 등록 
+		http://localhost
+	4. 카카오로그인 
+		활성화 : ON
+		Redirect URI : 
+			- 카카오 로그인에서 사용할 주소 설정 
+			http://localhost/login/oauth2/code/kakao
+	5. 동의항목
+		profile_nickname 필수 동의
+		account_email 필수 동의
+	6. 보안
+		Client Secret
+			- 코드 생성 
+			코드 : f7N8WMOx3a8JNtTn3LsL2G8EaAHYCsWo
+			활성화 상태 : 사용함
+-네이버
+
+-구글 
