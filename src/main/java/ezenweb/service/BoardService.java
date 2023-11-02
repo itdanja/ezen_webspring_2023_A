@@ -3,6 +3,7 @@ package ezenweb.service;
 import example.day06.NoteDto;
 import example.day06.NoteEntity;
 import ezenweb.model.dto.BoardDto;
+import ezenweb.model.dto.MemberDto;
 import ezenweb.model.entity.BoardEntity;
 import ezenweb.model.entity.MemberEntity;
 import ezenweb.model.repository.BoardEntityRepository;
@@ -36,18 +37,25 @@ public class BoardService {
 
          */
         // 1. FK 키의 엔티티를 찾는다.
+        // ================================= 단방향 ================================================= //
             // [ FK로 사용할 PK를 알고 있어야 있어야한다. 세션,매개변수 가져오기 ]
             // 1. 예 ) 로그인된 회원의 pk번호 호출
+
+                     // ============= 로그인된 멤버 엔티티 찾기 ============= //
+        MemberDto loginDto = memberService.getMember();
+        if( loginDto == null  ) { return  false; }
             // memberService.getMember().getMno();
             // 2. 회원pk번호를 가지고 pk엔티티 찾기
-        // ================================= 단방향 ================================================= //
-        Optional<MemberEntity> memberEntityOptional
-                = memberEntityRepository.findById( memberService.getMember().getMno() );
+        Optional<MemberEntity> memberEntityOptional = memberEntityRepository.findById( loginDto.getMno()  );
             // 3. 유효성검사 [ 로그인이 안된상태 글쓰기 실패 ]
-        if( !memberEntityOptional.isPresent() ){ return false;}
+        if( !memberEntityOptional.isPresent() ){ return false; }
+                     // ============= 로그인된 멤버 엔티티 찾기 end ============= //
+
             // 4. 단방향 저장  [ 게시물 엔티티에 회원엔티티 넣어주기 ]
                 // 1. 게시물 생성 [ fk에 해당하는 레코드 생성 ]
+                        // ============= 게시물  엔티티 등록  ============= //
         BoardEntity boardEntity  = boardEntityRepository.save( boardDto.saveToEntity() );
+                        // ============= 게시물  엔티티 등록 end  ============= //
                 // 2. 생성된 게시물에 작성자엔티티 넣어주기 [ fk 넣어주기 ]
         boardEntity.setMemberEntity( memberEntityOptional.get() );
         // ================================= 단방향 end ================================================= //
