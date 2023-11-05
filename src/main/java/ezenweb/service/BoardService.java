@@ -3,6 +3,7 @@ package ezenweb.service;
 import example.day06.NoteDto;
 import example.day06.NoteEntity;
 import ezenweb.model.dto.BoardDto;
+import ezenweb.model.dto.FileDto;
 import ezenweb.model.dto.MemberDto;
 import ezenweb.model.entity.BoardEntity;
 import ezenweb.model.entity.MemberEntity;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +25,7 @@ public class BoardService {
     @Autowired private BoardEntityRepository boardEntityRepository;
     @Autowired private MemberService memberService;
     @Autowired private MemberEntityRepository memberEntityRepository;
+    @Autowired private FileService fileService;
     // 1.
     @Transactional // 함수내 여럿 SQL를 하나의 일처리 단위로 처리
     public boolean write( BoardDto boardDto  ){
@@ -63,7 +66,16 @@ public class BoardService {
         // 5. 양방향 저장 [ 회원엔티티에 게시물 엔티티 넣어주기 ]
         memberEntityOptional.get().getBoardEntityList().add( boardEntity );
         // ================================= 양방향 end ================================================= //
-        if( boardEntity.getBno() >= 1) { return true; } return false;
+        if( boardEntity.getBno() >= 1) {
+
+            if( boardDto.getMultipartFileList().size() != 0 ){
+                boardDto.getMultipartFileList().forEach( (img)->{
+                    FileDto fileDto = fileService.fileupload( img );
+                        boardEntity.setBfile( fileDto.getUuidFile() );
+                });
+            }
+            return true;
+        } return false;
     }
     // 2.
     @Transactional
@@ -106,4 +118,9 @@ public class BoardService {
         }
         return false;
     }
+
+    public BoardDto doGet( int bno ){
+        return  boardEntityRepository.findById( bno ).get().allToDto();
+    }
+
 }

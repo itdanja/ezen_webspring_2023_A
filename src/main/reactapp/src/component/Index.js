@@ -25,6 +25,8 @@ import Info from './member/Info';
 /* Board import */
 import BoardList from './board/BoardList';
 import BoardWrite from './board/BoardWrite';
+import BoardView from './board/BoardView';
+import BoardUpdate from './board/BoardUpdate';
 
 export default function Index( props ){
     return(<>
@@ -50,6 +52,8 @@ export default function Index( props ){
                         {/* BOARD */}
                         <Route path='/board/list' element = { <BoardList />} />
                         <Route path='/board/write' element = { <BoardWrite />} />
+                        <Route path='/board/view' element = { <BoardView />} />
+                        <Route path='/board/update' element = { <BoardUpdate />} />
 
                     </Routes >
                 <Footer />

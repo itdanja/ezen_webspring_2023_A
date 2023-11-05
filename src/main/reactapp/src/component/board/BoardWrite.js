@@ -21,7 +21,9 @@ export default function BoardWrite( props ){
             <form className="boardForm">
                 <input type="text" placeholder ='제목' name="btitle" />       <br/>
                 <textarea placeholder='내용' name="bcontent"> </textarea>     <br/>
+                <input type="file" name='multipartFileList'/>
                 <button type="button" onClick={ boardWrite } >등록 </button>
+
             </form>
         </div>
     </>)

@@ -22,6 +22,10 @@ public class BoardController {
     public List<BoardDto> getAll(){
         return boardService.getAll();
     }
+    @GetMapping("/doGet")
+    public BoardDto get(  @RequestParam int bno ){
+        return boardService.doGet( bno );
+    }
     // 3.
     @PutMapping("")
     public boolean update( BoardDto boardDto ){
