@@ -25,17 +25,27 @@ import Paper from '@mui/material/Paper';
 // --------------------------- //
 // ---------------- mui table sample -------------- //
 // ------------------------------------------------ //
+import Pagination from '@mui/material/Pagination';
+
 export default function BoardList( props ){
 
     // 0. 컴포넌트 상태변수 관리
     let [ rows , setRows ] = useState( [ ] )
+    let [ pageInfo , setPageInfo ] = useState( { 'page' : 1  } )
+
     // 1. axios를 이용한 스프링의 컨트롤과 통신
     useEffect( ()=>{   // 컴포넌트가 생성될때 1번 되는 axios
-        axios.get('/board').then( r =>{
+        axios.get('/board' , { params : pageInfo } ).then( r =>{
                setRows( r.data ); // 응답받은 모든 게시물을 상태변수에 저장
                // setState : 해당 컴포넌트가 업데이트(새로고침/재랜더링/return재실행)
            });
-    } , [] );
+    } ,  [ pageInfo ] );
+
+    // 4. 페이징 변경
+    const selectPage = ( e , value ) =>{ console.log( value );
+
+        setPageInfo( {...pageInfo , page : value } ) // 버튼이 교체 되었을때 페이지번호를 상태변수에 새로고침[ 렌더링 ]
+    }
 
     return(<>
         <h3> 게시물 목록 </h3>
@@ -68,6 +78,22 @@ export default function BoardList( props ){
             </TableBody>
           </Table>
         </TableContainer>
+        <div style={{ display:'flex' , justifyContent : 'center' , margin : '40px 0px' }}>
+            { /* count = 전체 페이지수  */}
+            <Pagination count={10} onChange={ selectPage } />
+
+                const onSearch = () => {
+                    pageInfo.key = document.querySelector('.key').value
+                    pageInfo.keyword = document.querySelector('.keyword').value
+                    pageInfo.page = 1 // 검색했을때 첫페이지 이동
+                    setPageInfo( {...pageInfo } )
+                }
+
+
+        </div>
+
+
+
     </>)
 }
 /*

@@ -19,8 +19,8 @@ public class BoardController {
     }
     // 2. 전체게시물출력
     @GetMapping("")
-    public List<BoardDto> getAll(){
-        return boardService.getAll();
+    public List<BoardDto> getAll( @RequestParam int page ){
+        return boardService.getAll(  page );
     }
     // 2-2 . 개별게시물출력
     @GetMapping("/doGet")

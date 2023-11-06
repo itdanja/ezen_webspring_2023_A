@@ -9,6 +9,10 @@ import ezenweb.model.entity.MemberEntity;
 import ezenweb.model.repository.BoardEntityRepository;
 import ezenweb.model.repository.MemberEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -67,9 +71,12 @@ public class BoardService {
     }
     // 2.
     @Transactional
-    public List<BoardDto> getAll(){
+    public List<BoardDto> getAll( int page ){
         // 1. 모든 게시물 호출한다.
-        List<BoardEntity> boardEntities = boardEntityRepository.findAll();
+        Pageable pageable = PageRequest.of( page-1 , 2 , Sort.by( Sort.Direction.DESC , "bno") );
+
+        Page<BoardEntity> boardEntities = boardEntityRepository.findAll( pageable );
+
         // 2.  List<BoardEntity> --> List<BoardDto>
         List<BoardDto> boardDtos = new ArrayList<>();
         boardEntities.forEach( e -> {   boardDtos.add( e.allToDto() );  });
