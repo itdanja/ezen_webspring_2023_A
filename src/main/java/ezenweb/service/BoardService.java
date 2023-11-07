@@ -71,11 +71,13 @@ public class BoardService {
     }
     // 2.
     @Transactional
-    public PageDto getAll( int page ){
+    public PageDto getAll( int page , String key , String keyword ){
+        // 페이징처리
         Pageable pageable = PageRequest.of( page-1 , 2   );
         // 1. 모든 게시물 호출한다.
-        Page<BoardEntity> boardEntities
-                = boardEntityRepository.findAll( pageable );
+        //Page<BoardEntity> boardEntities = boardEntityRepository.findAll( pageable );
+        Page<BoardEntity> boardEntities = boardEntityRepository.findBySearch( key , keyword , pageable );
+
         // 2.  List<BoardEntity> --> List<BoardDto>
         List<BoardDto> boardDtos = new ArrayList<>();
         boardEntities.forEach( e -> {   boardDtos.add( e.allToDto() );  });
