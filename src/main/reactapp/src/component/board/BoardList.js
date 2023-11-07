@@ -38,17 +38,27 @@ export default function BoardList( props ){
 
     // 0. 스프링에게 전달할 객체
     const [ pageInfo , setPageInfo ] = useState( {
-        page : 1 , key : '' , keyword : ''
+        page : 1 , key : 'btitle' , keyword : ''
     }); console.log( pageInfo );
 
-    // 1. axios를 이용한 스프링의 컨트롤과 통신
-    useEffect( ()=>{   // 컴포넌트가 생성/특정 상태변수가 변경 될때  axios
+
+    const getAll = () =>{
+
+
+
         axios.get('/board' , { params : pageInfo } ).then( r =>{
                 // r.data : PageDto  // r.data.boardDtos : PageDto 안에 있는 boardDtos
                setPageDto( r.data ); // 응답받은 모든 게시물을 상태변수에 저장
                // setState : 해당 컴포넌트가 업데이트(새로고침/재랜더링/return재실행)
            });
-    } , [ pageInfo ] );
+
+    }
+
+
+    // 1. axios를 이용한 스프링의 컨트롤과 통신
+    useEffect( ()=>{   // 컴포넌트가 생성/특정 상태변수가 변경 될때  axios
+        getAll()
+    } , [  ] );
 
     // 2. 페이지 번호를 클릭했을떄.
     const onPageSelect = ( e , value )=>{  console.log( value );
@@ -56,7 +66,7 @@ export default function BoardList( props ){
         setPageInfo( { ...pageInfo } ); // 새로고침 [ 상태변수의 주소값이 바뀌면 재랜더링 ]
     }
     // 3. 검색 버튼을 눌렀을때.
-    const onSearch = ( e ) =>{   }
+    const onSearch = ( e ) =>{ getAll()   }
 
     return(<>
         <h3> 게시물 목록 </h3>

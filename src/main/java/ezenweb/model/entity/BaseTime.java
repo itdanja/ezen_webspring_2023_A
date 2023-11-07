@@ -1,6 +1,5 @@
 package ezenweb.model.entity;
 
-import jdk.nashorn.internal.runtime.logging.Logger;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
