@@ -25,21 +25,43 @@ import Paper from '@mui/material/Paper';
 // --------------------------- //
 // ---------------- mui table sample -------------- //
 // ------------------------------------------------ //
+// ---------------- Pagination -------------------- //
+import Pagination from '@mui/material/Pagination';
+// ------------------------------------------------ //
+
 export default function BoardList( props ){
 
     // 0. 컴포넌트 상태변수 관리
-    let [ rows , setRows ] = useState( [ ] )
+    let [ pageDto , setPageDto ] = useState( {
+        boardDtos : [] ,
+        totalPages : 0 ,
+        totalCount : 0
+    } ); // 스프링에서 전달해주는 DTO와 일치화
+
+    const [ page , setPage ] = useState( 1 );
     // 1. axios를 이용한 스프링의 컨트롤과 통신
-    useEffect( ()=>{   // 컴포넌트가 생성될때 1번 되는 axios
-        axios.get('/board').then( r =>{
-               setRows( r.data ); // 응답받은 모든 게시물을 상태변수에 저장
+    useEffect( ()=>{   // 컴포넌트가 생성/특정 상태변수가 변경 될때  axios
+        axios.get('/board' , { params : { page : page } } ).then( r =>{
+                // r.data : PageDto
+                // r.data.boardDtos : PageDto 안에 있는 boardDtos
+               setPageDto( r.data ); // 응답받은 모든 게시물을 상태변수에 저장
                // setState : 해당 컴포넌트가 업데이트(새로고침/재랜더링/return재실행)
            });
-    } , [] );
+    } , [ page ] );
+
+    // 2.
+    const onPageSelect = ( e , value )=>{
+        console.log( value );
+        setPage( value );
+    }
 
     return(<>
         <h3> 게시물 목록 </h3>
+
         <a href="/board/write">글쓰기</a>
+
+        <p> page : { page  } </p>
+
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             {/*테이블 제목 구역*/}
@@ -54,7 +76,7 @@ export default function BoardList( props ){
             </TableHead>
              {/*테이블 내용 구역*/}
             <TableBody>
-              {rows.map((row) => (
+              { pageDto.boardDtos.map((row) => ( // map is not a function
                 <TableRow key={row.name}  sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
                   <TableCell align="right">{row.bno}</TableCell>
                   <TableCell align="right">
@@ -68,6 +90,11 @@ export default function BoardList( props ){
             </TableBody>
           </Table>
         </TableContainer>
+        <div style = {{ display : 'flex' , justifyContent : 'center' }} >
+            { /* count : 전체페이지수   onChange : 페이지번호를 클릭/변경 했을떄 이벤트 */}
+            <Pagination count={ pageDto.totalPages } onChange={ onPageSelect } />
+        </div>
+
     </>)
 }
 /*

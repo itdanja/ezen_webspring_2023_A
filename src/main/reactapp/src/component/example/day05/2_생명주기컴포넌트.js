@@ -36,9 +36,9 @@ export default function 생명주기컴포넌트( props ){
     컴포넌트의 생명주기[ Life Cycle ]
         탄생 [ Mounting ] ------------> 업데이트[ updating ] -------------------------> 제거(UnMount )
         1. 함수/컴포넌트 생성
-                |                        1. setState()    : 상태 변경 되었을때.
-        2. 함수/컴포넌트 호출               2. forceUpdate() : 강제 랜더링
-          <컴포넌트명 />                    3. new props     :  props가변경되었을때
+                |                            1. setState()    : 상태 변경 되었을때.
+        2. 함수/컴포넌트 호출                   2. forceUpdate() : 강제 랜더링
+          <컴포넌트명 />                       3. new props     :  props가변경되었을때
                 |                           |
                 |                           |
         3.                 가상 DOM UPDATE  / root.render( )

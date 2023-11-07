@@ -4,11 +4,15 @@ import example.day06.NoteDto;
 import example.day06.NoteEntity;
 import ezenweb.model.dto.BoardDto;
 import ezenweb.model.dto.MemberDto;
+import ezenweb.model.dto.PageDto;
 import ezenweb.model.entity.BoardEntity;
 import ezenweb.model.entity.MemberEntity;
 import ezenweb.model.repository.BoardEntityRepository;
 import ezenweb.model.repository.MemberEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -67,14 +71,25 @@ public class BoardService {
     }
     // 2.
     @Transactional
-    public List<BoardDto> getAll(){
+    public PageDto getAll( int page ){
+        Pageable pageable = PageRequest.of( page-1 , 2   );
         // 1. 모든 게시물 호출한다.
-        List<BoardEntity> boardEntities = boardEntityRepository.findAll();
+        Page<BoardEntity> boardEntities
+                = boardEntityRepository.findAll( pageable );
         // 2.  List<BoardEntity> --> List<BoardDto>
         List<BoardDto> boardDtos = new ArrayList<>();
         boardEntities.forEach( e -> {   boardDtos.add( e.allToDto() );  });
-        // 3.
-        return boardDtos;
+            // 3. 총 페이지수
+        int totalPages = boardEntities.getTotalPages();
+            // 4. 총 게시물수
+        Long totalCount = boardEntities.getTotalElements(); // 요소 : 게시물 1개
+            // 5. pageDto 구성해서 axios에게 전달
+        PageDto pageDto = PageDto.builder()
+                .boardDtos( boardDtos )
+                .totalCount( totalCount )
+                .totalPages( totalPages )
+                .build();
+        return pageDto;  // 3. 리턴
     }
     // 3.
     @Transactional // !!!!!! 필수 : 수정은 하나의 함수에 sql 여러개 실행될 경우가 있어서 !!!!!!!!!
@@ -146,7 +161,16 @@ public class BoardService {
 
 
 
-
+// * JPA 페이징처리 라이브러리 지원
+// 1. Pageable : 페이지 인터페이스( 구현체:구현[추상메소드(인터페이스 가지는 함수)를 구현]해주는 객체 )
+// 사용이유 : Repository인터페이스가 페이징처리할때 사용하는 인터페이스
+// 2. PageRequest : 페이지 구현체
+// of( 현재페이지 , 페이지별게시물수
+// 현재페이지 : 0 부터 시작
+// 페이지별게시물수  : 만약에 2일때는 페이지 마다 게시물 2개씩 출력
+// 3. Page : list와 마찬가지로 페이징결과의 여러개 객체를 저장하는 타입[인터페이스]
+// list 와 다르게 추가적으로 함수 지원
+// 1. .getTotalPages()
 
 
 
