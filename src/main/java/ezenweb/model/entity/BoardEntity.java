@@ -43,9 +43,11 @@ public class BoardEntity extends BaseTime { // 테이블 설계
         return BoardDto.builder()
                 .bno( this.bno ).btitle( this.btitle )
                 .bcontent( this.bcontent ).bfile( this.bfile )
-                .bview( this.bview ).mno( this.memberEntity.getMno() )
+                .bview( this.bview )
+                .mno( this.memberEntity.getMno() )  // 작성자 번호 [ fk ]
                 .cdate( toTimeOrDate( this.getCdate() ) )
                 .udate( toTimeOrDate( this.getUdate() ) )
+                .memail( this.memberEntity.getMemail().split("@")[0] ) // 작성자 아이디 [ fk에 연결된 레코드의 필드 ]
                 .build();
     }
 }

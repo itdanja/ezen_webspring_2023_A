@@ -24,6 +24,8 @@ public class BoardDto {
     // dto에서의 날짜타입x 문자타입
     private String cdate;
     private String udate;
+    // + 작성자 아이디
+    private String memail;
 
     // dto -> entity
     // 1. entity 저장할때

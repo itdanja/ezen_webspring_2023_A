@@ -34,7 +34,7 @@ public interface BoardEntityRepository extends JpaRepository< BoardEntity, Integ
     @Query( value = " select * from board where " +
             " if( :keyword = '' , true , " +  // 전체검색  [ 조건1 ]
             " if( :key = 'btitle' , btitle like %:keyword% , " + // [조건2]
-            " if( :key = 'bcontent' , bcontent like %:keyword% , true ) ) ) " // [조건3]
+            " if( :key = 'bcontent' , bcontent like %:keyword% , true ) ) ) order by cdate desc" // [조건3]
             , nativeQuery = true )
     Page<BoardEntity> findBySearch( String key , String keyword ,  Pageable pageable );
 

@@ -89,24 +89,24 @@ export default function BoardList( props ){
             {/*테이블 제목 구역*/}
             <TableHead>
               <TableRow>
-                <TableCell align="right">번호</TableCell>
-                <TableCell align="right">제목</TableCell>
-                <TableCell align="right">작성자</TableCell>
-                <TableCell align="right">작성일</TableCell>
-                <TableCell align="right">조회수</TableCell>
+                <TableCell style={{ width : '10%' }} align="center">번호</TableCell>
+                <TableCell style={{ width : '55%' }} align="center">제목</TableCell>
+                <TableCell style={{ width : '10%' }} align="center">작성자</TableCell>
+                <TableCell style={{ width : '10%' }} align="center">작성일</TableCell>
+                <TableCell style={{ width : '10%' }} align="center">조회수</TableCell>
               </TableRow>
             </TableHead>
              {/*테이블 내용 구역*/}
             <TableBody>
               { pageDto.boardDtos.map((row) => ( // map is not a function
                 <TableRow key={row.name}  sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
-                  <TableCell align="right">{row.bno}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">{row.bno}</TableCell>
+                  <TableCell align="left">
                     <Link to={"/board/view?bno="+row.bno}> {row.btitle} </Link>
                   </TableCell>
-                  <TableCell align="right">{row.mno}</TableCell>
-                  <TableCell align="right">{row.cdate}</TableCell>
-                  <TableCell align="right">{row.bview}</TableCell>
+                  <TableCell align="center">{row.memail}</TableCell>
+                  <TableCell align="center">{row.cdate}</TableCell>
+                  <TableCell align="center">{row.bview}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
