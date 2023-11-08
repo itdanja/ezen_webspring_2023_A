@@ -48,7 +48,7 @@ export default function BoardList( props ){
                    setPageDto( r.data ); // 응답받은 모든 게시물을 상태변수에 저장 // setState : 해당 컴포넌트가 업데이트(새로고침/재랜더링/return재실행)
                 });
     }
-    // 1-2. 컴포넌트가 생성 될떄 // + 의존성배열 : page 변경될때 //+의존성배열 : view 변경될때
+    // 1-2. 컴포넌트가 생성 될떄 // + 의존성배열 : page (주소값) 변경될때 //+의존성배열 : view (주소값) 변경될때
     useEffect( ()=>{   getBoard();  } , [ pageInfo.page  , pageInfo.view ] );
 
     // 2. 페이지 번호를 클릭했을떄.
@@ -75,17 +75,14 @@ export default function BoardList( props ){
             <option value="10"> 10 </option>
             <option value="20"> 20 </option>
         </select>
+        { /* 삼항연산자 를 이용한 조건부 랜더링 */}
+        {
+            pageInfo.keyword == '' ?
+            (<> </>)
+            :
+            (<> <button  type="button" onClick = { (e)=> { window.location.href="/board/list"; }  } > 검색제거 </button>  </>)
+        }
 
-        <button  type="button"
-                onClick = {
-                    (e)=> {
-                            setPageInfo(
-                                    { ...pageInfo , key : 'btitle' , keyword : '' , page : 1  }
-                             );
-                             getBoard();
-                        }
-                }
-        > 검색제거 </button>
 
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">

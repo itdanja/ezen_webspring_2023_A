@@ -135,6 +135,8 @@ public class BoardService {
         if( boardEntityOptional.isPresent() ){
             // 3. 엔티티 꺼내기
             BoardEntity boardEntity = boardEntityOptional.get();
+                // + 조회수 증가
+                boardEntity.setBview( boardEntity.getBview()+1 );
             // 4. 엔티티 -> dto 변환
             BoardDto boardDto = boardEntity.allToDto();
             // 5. dto 반환
