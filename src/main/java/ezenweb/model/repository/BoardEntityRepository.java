@@ -30,7 +30,12 @@ public interface BoardEntityRepository extends JpaRepository< BoardEntity, Integ
     // @Query( value = "select * from board where bno = :bno" , nativeQuery = true )    // == findById
     // @Query( value = "select * from board where btitle = :btitle" , nativeQuery = true ) // == findByBtitle
     // @Query( value = "select * from board where bcontent = :keyword" , nativeQuery = true ) // == findByBcontent
-    @Query( value = "select * from board where btitle like %:keyword%" , nativeQuery = true ) // == 제목이 포함됨
+    //@Query( value = "select * from board where :key like %:keyword%" , nativeQuery = true ) // == 제목이 포함됨
+    @Query( value = " select * from board where " +
+            " if( :keyword = '' , true , " +  // 전체검색  [ 조건1 ]
+            " if( :key = 'btitle' , btitle like %:keyword% , " + // [조건2]
+            " if( :key = 'bcontent' , bcontent like %:keyword% , true ) ) ) " // [조건3]
+            , nativeQuery = true )
     Page<BoardEntity> findBySearch( String key , String keyword ,  Pageable pageable );
 
 }

@@ -71,9 +71,10 @@ public class BoardService {
     }
     // 2.
     @Transactional
-    public PageDto getAll( int page , String key , String keyword ){
+    public PageDto getAll( int page , String key ,
+                           String keyword , int view ){
         // 페이징처리
-        Pageable pageable = PageRequest.of( page-1 , 2   );
+        Pageable pageable = PageRequest.of( page-1 , view   );
         // 1. 모든 게시물 호출한다.
         //Page<BoardEntity> boardEntities = boardEntityRepository.findAll( pageable );
         Page<BoardEntity> boardEntities = boardEntityRepository.findBySearch( key , keyword , pageable );
