@@ -39,6 +39,7 @@ export default function BoardView( props ){
             <h3> 개별 게시물 { bno } </h3>
             <div>{ board.btitle }</div>
             <div>{ board.bcontent }</div>
+            <div>{ board.bfile }</div>
 
             {/* 삭제 와 수정 은 본인(본인확인) 만 가능 */}
             {/*    삼항연산자         조건 ? (<>참일때</>) : (<>거짓일때</>)           */}

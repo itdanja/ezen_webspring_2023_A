@@ -28,6 +28,8 @@ public class BoardService {
     @Autowired private BoardEntityRepository boardEntityRepository;
     @Autowired private MemberService memberService;
     @Autowired private MemberEntityRepository memberEntityRepository;
+    @Autowired FileService fileService;
+
     // 1.
     @Transactional // 함수내 여럿 SQL를 하나의 일처리 단위로 처리
     public boolean write( BoardDto boardDto  ){
@@ -68,8 +70,21 @@ public class BoardService {
         // 5. 양방향 저장 [ 회원엔티티에 게시물 엔티티 넣어주기 ]
         memberEntityOptional.get().getBoardEntityList().add( boardEntity );
         // ================================= 양방향 end ================================================= //
-        if( boardEntity.getBno() >= 1) { return true; } return false;
-    }
+        if( boardEntity.getBno() >= 1) {
+            // 게시물 쓰기 성공시 파일 처리
+            String filename
+                    = fileService.fileUpload( boardDto.getFile() );
+            // 파일처리 결과 를 db에 저장
+            if( filename != null ){ boardEntity.setBfile( filename ); }
+
+            return true;
+        }
+        return false;
+    } // write m end
+
+
+
+
     // 2.
     @Transactional
     public PageDto getAll( int page , String key ,
