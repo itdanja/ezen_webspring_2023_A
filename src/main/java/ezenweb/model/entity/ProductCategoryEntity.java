@@ -1,19 +1,34 @@
 package ezenweb.model.entity;
 
-import lombok.ToString;
+import ezenweb.model.dto.ProductCategoryDto;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity@Table( name="productcategory")
-public class ProductCategoryEntity { /*제품 카테고리*/
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@Builder
+public class ProductCategoryEntity extends BaseTime { /*제품 카테고리*/
     @Id@GeneratedValue( strategy = GenerationType.IDENTITY) private int pcno;       // 카테고리번호 [ PK ]
     @Column private String pcname;  // 카테고리명
 
     // 양방향 만들기
     @OneToMany( fetch = FetchType.LAZY, mappedBy = "productCategoryEntity" , cascade =CascadeType.ALL   )
     @ToString.Exclude List<ProductEntity> productEntityList = new ArrayList<>();
+
+    public ProductCategoryDto toDto(){
+        return ProductCategoryDto.builder()
+                .pcname(this.pcname)
+                .pcno(this.pcno)
+                .build();
+    }
+
     /*
         fetch : 양방향일때 참조를 불러오는 로딩 옵션
             fetch = FetchType.LAZY            : 참조를 사용할때 로딩 [ 지연 로딩  ]  자바에서 .get~~~ 할때 객체 참조해서 불러오고

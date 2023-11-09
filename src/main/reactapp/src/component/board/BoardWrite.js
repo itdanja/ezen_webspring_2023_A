@@ -1,7 +1,4 @@
 import axios from 'axios';
-// npm install --save @ckeditor/ckeditor5-react @ckeditor/ckeditor5-build-classic
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default function BoardWrite( props ){
     // 1. 등록함수
@@ -25,11 +22,6 @@ export default function BoardWrite( props ){
             <form className="boardForm">
                 <input type="text" placeholder ='제목' name="btitle" />       <br/>
                 <textarea placeholder='내용' name="bcontent"> </textarea>     <br/>
-               <CKEditor
-                    editor={ ClassicEditor }
-                    data=""
-                    onChange={ ( event, editor ) => { const data = editor.getData(); bcontent = data  } }
-                />
                 <input type="file" name="file" /> <br/>
                 <button type="button" onClick={ boardWrite } >등록 </button>
             </form>
