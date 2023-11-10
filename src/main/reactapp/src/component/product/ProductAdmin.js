@@ -11,7 +11,22 @@ import ProductInfo from './ProductInfo'
 import ProductList from './ProductList'
 import ProductWrite from './ProductWrite'
 
+import axios from 'axios';
+import { useEffect , useState } from 'react'
+
 export default function ProductAdmin( props ){
+
+    // 0.출력할 카테고리 목록 을 저장하는 상태변수
+    const [ categoryList , setCategoryList ] = useState( [] );
+
+    // 2. 카테고리 출력 AXIOS // 컴포넌트가 열렸을때 / 등록되었을때[재랜더링] // 삭제되었을때
+    const printCategory = (e)=>{
+        axios.get('/product/category')
+            .then( r => { console.log(r.data); setCategoryList(r.data); } );
+    }
+    useEffect( ()=>{ printCategory() } , [ ] )
+
+
     // 2.
     const [value, setValue] = React.useState('1');
     // 3.
@@ -35,10 +50,20 @@ export default function ProductAdmin( props ){
                </TabList>
              </Box>
               {/* 탭 선택시 출력되는 내용물 */}
-             <TabPanel value="1"> <CategoryWrite /> </TabPanel>
-             <TabPanel value="2"> <ProductWrite /> </TabPanel>
+             <TabPanel value="1"> <CategoryWrite
+                                    categoryList={categoryList}
+                                    printCategory={ printCategory } />
+                                    </TabPanel>
+
+             <TabPanel value="2"> <ProductWrite
+                                    categoryList={categoryList}
+                                    printCategory={ printCategory } />
+                                    </TabPanel>
+
              <TabPanel value="3"> <ProductList /> </TabPanel>
+
              <TabPanel value="4"> <ProductInfo /> </TabPanel>
+
            </TabContext>
          </Box>
     </>)

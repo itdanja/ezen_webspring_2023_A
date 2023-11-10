@@ -30,7 +30,7 @@ public class ProductController {
         return productService.updateCategory( productCategoryDto );
     }
     // 4. 카테고리 삭제
-    @DeleteMapping("/catoegory")
+    @DeleteMapping("/category")
     public boolean deleteCategory( @RequestParam int pcno ){
         return productService.deleteCategory( pcno );
     }
