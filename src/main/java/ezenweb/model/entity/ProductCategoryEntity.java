@@ -1,13 +1,15 @@
 package ezenweb.model.entity;
 
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity@Table( name="productcategory")
-public class ProductCategoryEntity { /*제품 카테고리*/
+@AllArgsConstructor @NoArgsConstructor
+@Getter @Setter @ToString @Builder
+public class ProductCategoryEntity  extends BaseTime  { /*제품 카테고리*/
     @Id@GeneratedValue( strategy = GenerationType.IDENTITY) private int pcno;       // 카테고리번호 [ PK ]
     @Column private String pcname;  // 카테고리명
 
