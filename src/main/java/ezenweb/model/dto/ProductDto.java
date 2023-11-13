@@ -17,5 +17,6 @@ public class ProductDto {
     // + 첨부파일이 여러개일때 [ vs 첨부파일 하나일때 = boardDto ]
     private List<MultipartFile> fileList;
         // <input type="file" name="fileList" multiple />
-
+    // + 카테고리
+    private int pcno; // 카테고리 번호
 }
