@@ -17,7 +17,8 @@ public class FileService {
 /* 파일관련 메소드 정의 : */
 
     // 0. 파일 경로 [ 배포전 ]
-    private String fileRootPath = "c:\\java\\";
+    // private String fileRootPath = "c:\\java\\";
+    private String fileRootPath ="C:\\Users\\504-t\\Desktop\\ezen_webspring_2023_A\\build\\resources\\main\\static\\static\\media\\";
 
     // 1. 업로드
     public String fileUpload(MultipartFile multipartFile ){

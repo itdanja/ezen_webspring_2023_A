@@ -2,6 +2,7 @@ package ezenweb.service;
 
 import ezenweb.model.dto.ProductCategoryDto;
 import ezenweb.model.dto.ProductDto;
+import ezenweb.model.dto.ProductImgDto;
 import ezenweb.model.entity.ProductCategoryEntity;
 import ezenweb.model.entity.ProductEntity;
 import ezenweb.model.entity.ProductImgEntity;
@@ -9,6 +10,7 @@ import ezenweb.model.repository.ProductCategoryEntityRepository;
 import ezenweb.model.repository.ProductEntityRepository;
 import ezenweb.model.repository.ProductImgEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,7 +65,7 @@ public class ProductService {
         return productCategoryEntityOptional.isPresent() ? productCategoryEntityOptional.get() : null;
     }
 
-    // ================================ 제품등록 ============================= //
+    // ================================ 제품  ============================= //
     // 1. 제품 등록 [ 이미지 포함 ]
     @Transactional public boolean onProductAdd( ProductDto productDto ){ System.out.println( productDto );
         // 1. 카테고리 엔티티 준비..
@@ -95,9 +97,31 @@ public class ProductService {
     }
     // 2. 제품 출력
     @Transactional public List<ProductDto> onProductAll( ){
-
-
-        return null;
+        // 1. 모든 제품의 엔티티 호출   // JPA 정렬 : Sort.by( Sort.Direction.DESC , "필드명")
+        List<ProductEntity> productEntityList = productEntityRepository.findAll(
+                                        Sort.by( Sort.Direction.DESC , "cdate") );
+        // 2. 모든 제품의 entity -> dto 로 변환해서 변환된 여러개/리스트 반환하기
+        return productEntityList.stream().map( (p)->{
+            return ProductDto.builder()
+                    .pno( p.getPno() ).pname( p.getPname() )
+                    .pstock( p.getPstock()).pstate( p.getPstate() )
+                    .pprice( p.getPprice() ).pcomment( p.getPcomment() )
+                    .categoryDto( // 제품카테고리 정보 Dto 1개
+                            ProductCategoryDto.builder()
+                                    .pcno( p.getProductCategoryEntity().getPcno())
+                                    .pcname( p.getProductCategoryEntity().getPcname() )
+                                    .build()
+                    )
+                    .imgList( // 제품이미지 정보 Dto 여러개
+                            p.getProductImgEntityList().stream().map( (img) -> {
+                                return ProductImgDto.builder()
+                                        .realFileName( img.getRealFileName())
+                                        .uuidFileName( img.getUuidFileName() )
+                                        .build();
+                            }).collect(Collectors.toList() )
+                    )
+                    .build();
+        }).collect(Collectors.toList());
     }
     // 3. 제품 수정
     @Transactional public boolean onProductUpdate( ProductDto productDto ){
