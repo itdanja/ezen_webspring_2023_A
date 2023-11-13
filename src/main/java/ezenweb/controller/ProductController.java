@@ -1,6 +1,7 @@
 package ezenweb.controller;
 
 import ezenweb.model.dto.ProductCategoryDto;
+import ezenweb.model.dto.ProductDto;
 import ezenweb.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,4 +35,40 @@ public class ProductController {
     public boolean deleteCategory( @RequestParam int pcno ){
         return productService.deleteCategory( pcno );
     }
+
+    // ================================ 제품등록 ============================= //
+    @PostMapping("") // 요청 : ? / 응답 : ?
+    public boolean onProductAdd( ProductDto productDto ){
+        return productService.onProductAdd( productDto );
+    }
+    @GetMapping("") // 요청 : ? / 응답 : ?
+    public List<ProductDto> onProductAll( ){
+        return productService.onProductAll();
+    }
+
+    @PutMapping("") // 요청 : ? / 응답 : ?
+    public boolean onProductUpdate( @RequestBody ProductDto productDto ){
+        return productService.onProductUpdate( productDto );
+    }
+
+    @DeleteMapping("") // 요청 : ? / 응답 : ?
+    public boolean onProductDelete( @RequestParam String pno ){
+        return productService.onProductDelete( pno );
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,14 +1,14 @@
 package ezenweb.service;
 
 import ezenweb.model.dto.ProductCategoryDto;
+import ezenweb.model.dto.ProductDto;
 import ezenweb.model.entity.ProductCategoryEntity;
 import ezenweb.model.repository.ProductCategoryEntityRepository;
 import ezenweb.model.repository.ProductEntityRepository;
 import ezenweb.model.repository.ProductImgEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -57,6 +57,26 @@ public class ProductService {
         Optional< ProductCategoryEntity > productCategoryEntityOptional = productCategoryEntityRepository.findById( pcno );
         return productCategoryEntityOptional.isPresent() ? productCategoryEntityOptional.get() : null;
     }
+
+    // ================================ 제품등록 ============================= //
+    // 1. 제품 등록 [ 이미지 포함 ]
+    @Transactional public boolean onProductAdd( ProductDto productDto ){
+        System.out.println( productDto );
+        return false;
+    }
+    // 2. 제품 출력
+    @Transactional public List<ProductDto> onProductAll( ){
+        return null;
+    }
+    // 3. 제품 수정
+    @Transactional public boolean onProductUpdate( ProductDto productDto ){
+        return false;
+    }
+    // 4. 제품 삭제
+    @Transactional public boolean onProductDelete( String pno ){
+        return false;
+    }
+
 }
 
 
