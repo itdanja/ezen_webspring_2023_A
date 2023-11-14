@@ -30,12 +30,43 @@ import BoardUpdate from './board/BoardUpdate';
 /* Product import */
 import ProductAdmin from './product/ProductAdmin';
 
+import { useState , useEffect , useRef , createContext  } from 'react'
+import { SnackbarProvider, useSnackbar } from 'notistack'; // npm install notistack
+
+export const AppContext = createContext();
+
+
 export default function Index( props ){
+
+    const { enqueueSnackbar } = useSnackbar();
+      let ws = useRef(null);
+
+      if (!ws.current) {
+            // 2. 웹소켓
+            // ================= 소켓 s =================== //
+            // 1. 클라이언트소켓 만들기
+            ws.current = new WebSocket("ws://localhost:80/chat");
+            console.log( ws )
+            // 1. 서버소켓과 연동 성공했을때. 이후 행동/메소드 정의
+            ws.current.onopen = (e)=>{ console.log(e); }
+            // 2. 서버소켓과 세션 오류가 발생했을때 이후 행동/메소드 정의
+            ws.current.onerror = (e)=>{ console.log(e); }
+            // 3. 서버소켓과 연동이 끊겼을때. 이후 행동/메소드 정의
+            ws.current.onclose = (e)=>{ console.log(e); }
+            // 4. 서버소켓으로부터 메시지를 받았을때. 이후 행동/메소드 정의
+            ws.current.onmessage = (e)=>{ console.log(e);
+                enqueueSnackbar(e.data,  { variant: "success" } );
+            }
+      }
+
     return(<>
+
         <div className="webContainer">
+            <AppContext.Provider value={ws}>
             <BrowserRouter >
                 <Header />
                     <Routes >
+
                         {/* MAIN*/}
                         <Route path='/' element = { <Main />} />
                         {/* EXAMPLE */}
@@ -58,9 +89,12 @@ export default function Index( props ){
                         <Route path='/board/update' element = { <BoardUpdate />} />
                         {/* admin */}
                         <Route path='/admin/product' element = { <ProductAdmin />} />
+
                     </Routes >
                 <Footer />
             </BrowserRouter >
+            </AppContext.Provider>
         </div>
+
     </>)
 }

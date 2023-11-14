@@ -1,7 +1,12 @@
 
 import axios from 'axios';
 
+import { useContext } from "react";
+import { AppContext } from "../Index.js";
+
 export default function ProductWrite( props ){
+
+    const ws = useContext(AppContext).current
 
     // 1. 제품등록
     const onProductAdd = (e)=>{
@@ -10,7 +15,8 @@ export default function ProductWrite( props ){
         axios.post( '/product' , productFormData )
             .then( r=>{
                 if( r.data ){
-                    alert('제품등록 성공'); productForm.reset();
+                    ws.send('새로운 제품이 등록되었습니다.');
+                    productForm.reset();
                 }
                 else{ alert('제품등록 실패'); }
             })
