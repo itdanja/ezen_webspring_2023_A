@@ -17,10 +17,10 @@ public interface ProductEntityRepository   extends JpaRepository<ProductEntity, 
     List<Map<Object,Object> > findByBarChart();
 
     // 2. 모든 카테고리의 제품 수 검색
-    @Query( value = "select"
+    @Query( value = "select pc.pcname , count(*) as count from product p inner join productcategory pc " +
+            "    on p.pcno = pc.pcno group by pc.pcname; " // on 절 : pk-fk 교/합 집합 위한 조인 조건절  vs where 일반조건  // group by 필드명 : ~~별( 그룹 )
             ,nativeQuery = true )
     List<Map<Object,Object> > findByPieChart();
-
     /*
         DTO,ENTITY 아닌 타입이 정해져 있지 않는 MAP<Object,Object> 사용
             - : entry 이라고 부름

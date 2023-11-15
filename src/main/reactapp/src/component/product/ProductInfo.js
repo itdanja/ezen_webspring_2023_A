@@ -16,9 +16,10 @@ export default function ProductInfo( props ){
     useEffect( ()=>{ getBarChart() } , [] )
 
     // 2. 컴포넌트 실행시 원형차트에 필요한 데이터 요청 axios
+    const [ pieChartData , setPieChartData ] = useState([]);
     const getPieChart = (e) =>{
         axios.get("/product/piechart")
-            .then( r =>{ console.log(r.data) } )
+            .then( r =>{ console.log(r.data); setPieChartData( r.data);  } )
     }
     useEffect( ()=>{ getPieChart() } , [] )
 
@@ -44,18 +45,13 @@ export default function ProductInfo( props ){
                         />
                         : <></>
                 }
-
             </div>
             <div>
                 <h3> 카테고리별 제품 수 (원형차트) </h3>
                  <PieChart
                       series={[
                         {
-                          data: [
-                            { id: 0, value: 10, label: 'series A' },
-                            { id: 1, value: 15, label: 'series B' },
-                            { id: 2, value: 20, label: 'series C' },
-                          ],
+                          data: pieChartData.map( (p,i)=>{ return { id: i , value : p.count , label : p.pcname  }  }),
                         },
                       ]}
                       width={400}
