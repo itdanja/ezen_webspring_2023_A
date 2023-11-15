@@ -1,7 +1,12 @@
 
 import axios from 'axios';
 
+import { useContext } from 'react';
+import { SocketContext } from '../Index.js'
+
 export default function ProductWrite( props ){
+
+    console.log( useContext( SocketContext) )
 
     // 1. 제품등록
     const onProductAdd = (e)=>{

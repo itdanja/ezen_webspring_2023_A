@@ -31,7 +31,10 @@ import BoardUpdate from './board/BoardUpdate';
 import ProductAdmin from './product/ProductAdmin';
 
 /* 리액트 훅 라이브러리 */
-import { useState , useEffect , useRef } from 'react';
+import { useState , useEffect , useRef , createContext    } from 'react';
+
+/* 리액트 Context 변수 */
+export const SocketContext = createContext();
 
 export default function Index( props ){
     // 일반변수 : let 변수명 = 10   : 함수안에서 선언되었으므로 함수 재실행/재 랜더링 될떄 초기화 반복적으로 이뤄어짐
@@ -62,34 +65,36 @@ export default function Index( props ){
 
     return(<>
         <div className="webContainer">
-            <BrowserRouter >
-                <Header />
-                    <Routes >
-                        {/* MAIN*/}
-                        <Route path='/' element = { <Main />} />
-                        {/* EXAMPLE */}
-                         <Route path='/example' element = { <ExampleList />} />
-                            <Route path='/example/day01/컴포넌트1' element = { <컴포넌트1 />} />
-                            <Route path='/example/day01/컴포넌트2' element = { <컴포넌트2 />} />
-                            <Route path='/example/day01/컴포넌트3' element = { <컴포넌트3 />} />
-                            <Route path='/example/day01/컴포넌트4' element = { <컴포넌트4 />} />
-                            <Route path='/example/day02/CSS적용컴포넌트' element = { <CSS컴포넌트 />} />
-                            <Route path='/example/day02/CommentList' element = { <CommentList />} />
-                            <Route path='/example/day04/Axios컴포넌트' element = { <Axios컴포넌트 />} />
-                        {/* MEMBER */}
-                        <Route path='/login' element = { <Login />} />
-                        <Route path='/signup' element = { <Signup />} />
-                        <Route path='/info' element = { <Info />} />
-                        {/* BOARD */}
-                        <Route path='/board/list' element = { <BoardList />} />
-                        <Route path='/board/write' element = { <BoardWrite />} />
-                        <Route path='/board/view' element = { <BoardView />} />
-                        <Route path='/board/update' element = { <BoardUpdate />} />
-                        {/* admin */}
-                        <Route path='/admin/product' element = { <ProductAdmin />} />
-                    </Routes >
-                <Footer />
-            </BrowserRouter >
+            <SocketContext.Provider value={ clientSocket } >
+                <BrowserRouter >
+                    <Header />
+                        <Routes >
+                            {/* MAIN*/}
+                            <Route path='/' element = { <Main />} />
+                            {/* EXAMPLE */}
+                             <Route path='/example' element = { <ExampleList />} />
+                                <Route path='/example/day01/컴포넌트1' element = { <컴포넌트1 />} />
+                                <Route path='/example/day01/컴포넌트2' element = { <컴포넌트2 />} />
+                                <Route path='/example/day01/컴포넌트3' element = { <컴포넌트3 />} />
+                                <Route path='/example/day01/컴포넌트4' element = { <컴포넌트4 />} />
+                                <Route path='/example/day02/CSS적용컴포넌트' element = { <CSS컴포넌트 />} />
+                                <Route path='/example/day02/CommentList' element = { <CommentList />} />
+                                <Route path='/example/day04/Axios컴포넌트' element = { <Axios컴포넌트 />} />
+                            {/* MEMBER */}
+                            <Route path='/login' element = { <Login />} />
+                            <Route path='/signup' element = { <Signup />} />
+                            <Route path='/info' element = { <Info />} />
+                            {/* BOARD */}
+                            <Route path='/board/list' element = { <BoardList />} />
+                            <Route path='/board/write' element = { <BoardWrite />} />
+                            <Route path='/board/view' element = { <BoardView />} />
+                            <Route path='/board/update' element = { <BoardUpdate />} />
+                            {/* admin */}
+                            <Route path='/admin/product' element = { <ProductAdmin />} />
+                        </Routes >
+                    <Footer />
+                </BrowserRouter >
+            </SocketContext >
         </div>
     </>)
 }
