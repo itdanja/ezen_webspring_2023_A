@@ -36,7 +36,13 @@ import { useState , useEffect , useRef , createContext    } from 'react';
 /* 리액트 Context 변수 */
 export const SocketContext = createContext();
 
+/* MUI 라이브러리 호출 */
+import {  useSnackbar } from 'notistack'; // npm i notistack
+
 export default function Index( props ){
+    /* MUI 라이브러리 객체 호출  */
+    const { enqueueSnackbar } = useSnackbar();
+
     // 일반변수 : let 변수명 = 10   : 함수안에서 선언되었으므로 함수 재실행/재 랜더링 될떄 초기화 반복적으로 이뤄어짐
         // 변수 출력시  :   10
     // Ref상태변수 : let 변수명 = useRef( 10 ) : 함수안에서 선언이 되었지만 해당 컴포넌트 업데이트(재랜더링)될때 초기화 안됨.
@@ -60,7 +66,7 @@ export default function Index( props ){
               clientSocket.current.onclose = (e)=>{ console.log(e); }
             // 4. 서버소켓으로부터 메시지를 받았을때. 이후 행동/메소드 정의
               clientSocket.current.onmessage = (e)=>{
-                alert( e.data );
+                enqueueSnackbar('This is a success message!', { variant : 'success' });
               }
     }
     // ================= 소켓 e =================== //

@@ -22,9 +22,17 @@ import 생명주기컴포넌트 from './component/example/day05/2_생명주기�
 import 라우터매개변수 from './component/example/day06/1_라우터매개변수'
 
 import Index from './component/Index'
+
+/* MUI 라이브러리 호출 */
+import { SnackbarProvider } from 'notistack';
+
 // 1. index.html에 <div id="root" > dom객체 호출
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render( <Index /> );
+root.render(
+    <SnackbarProvider maxSnack={ 5 }>
+        <Index />
+    </SnackbarProvider>
+);
 //root.render( <상태관리컴포넌트 /> );
 //root.render( <생명주기컴포넌트 /> );
 //root.render( <라우터매개변수 /> );
