@@ -1,12 +1,14 @@
 
 import axios from 'axios';
 
+// [소켓1]
 import { useContext } from 'react';
 import { SocketContext } from '../Index.js'
 
 export default function ProductWrite( props ){
 
-    console.log( useContext( SocketContext) )
+    // [소켓2]. 상위 컴포넌트에 있는 context의 들어있는 클라이언소켓 꺼내기
+    const clientSocket = useContext( SocketContext ).current;
 
     // 1. 제품등록
     const onProductAdd = (e)=>{
@@ -15,7 +17,9 @@ export default function ProductWrite( props ){
         axios.post( '/product' , productFormData )
             .then( r=>{
                 if( r.data ){
-                    alert('제품등록 성공'); productForm.reset();
+                    // [소켓3] : 서버에게 메시지 보내기
+                    clientSocket.send('새로운 제품이 등록 되었습니다. ');
+                    productForm.reset();
                 }
                 else{ alert('제품등록 실패'); }
             })

@@ -59,7 +59,9 @@ export default function Index( props ){
             // 3. 서버소켓과 연동이 끊겼을때. 이후 행동/메소드 정의
               clientSocket.current.onclose = (e)=>{ console.log(e); }
             // 4. 서버소켓으로부터 메시지를 받았을때. 이후 행동/메소드 정의
-              clientSocket.current.onmessage = (e)=>{ console.log(e); }
+              clientSocket.current.onmessage = (e)=>{
+                alert( e.data );
+              }
     }
     // ================= 소켓 e =================== //
 
