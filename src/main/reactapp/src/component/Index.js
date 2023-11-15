@@ -33,10 +33,15 @@ import ProductAdmin from './product/ProductAdmin';
 /* 리액트 훅 라이브러리 */
 import { useState , useEffect , useRef , createContext    } from 'react';
 
+import { useSnackbar } from 'notistack'; // npm install notistack
+
 /* 리액트 Context 변수 */
 export const SocketContext = createContext();
 
 export default function Index( props ){
+
+    const { enqueueSnackbar } = useSnackbar();
+
     // 일반변수 : let 변수명 = 10   : 함수안에서 선언되었으므로 함수 재실행/재 랜더링 될떄 초기화 반복적으로 이뤄어짐
         // 변수 출력시  :   10
     // Ref상태변수 : let 변수명 = useRef( 10 ) : 함수안에서 선언이 되었지만 해당 컴포넌트 업데이트(재랜더링)될때 초기화 안됨.
@@ -60,7 +65,7 @@ export default function Index( props ){
               clientSocket.current.onclose = (e)=>{ console.log(e); }
             // 4. 서버소켓으로부터 메시지를 받았을때. 이후 행동/메소드 정의
               clientSocket.current.onmessage = (e)=>{
-                alert( e.data );
+                enqueueSnackbar(e.data,  { variant: "success" } );
               }
     }
     // ================= 소켓 e =================== //
@@ -100,3 +105,31 @@ export default function Index( props ){
         </div>
     </>)
 }
+
+/*
+
+createContext  / useContext
+	1. createContext  사용하기 위한 import
+		import {  createContext  } from 'react';
+
+	2. createContext 객체 생성
+		* 컴포넌트 밖에
+		export const SocketContext = createContext();
+		* SocketContext 확인시 각종 메소드를 지원 ( *Provider )
+
+	3. 전달(Provider) 내용과 전달할 컴포넌트들위 범위 지정
+		<SocketContext.Provider value={  clientSocket  }  >
+			각종 하위컴포넌트
+		</SocketContext.Provider>
+
+	4. 하위 컴포넌트에 전달(Provider)된 내용 확인
+		1. import { useContext } from 'react';
+		2. 해당 Context 객체 호출
+			* import { Context객체명 } from '../Index.js'
+			 import { SocketContext } from '../Index.js'
+
+		3. 해당 Context 객체 내용물 호출
+			* useContext( Context객체명 )
+			useContext( SocketContext )
+
+*/
