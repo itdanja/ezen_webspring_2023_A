@@ -8,7 +8,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Component // 스프링 컨테이너에 빈 등록
 public class ChattingController extends TextWebSocketHandler {
-
     // 1. 클라이언트소켓과 연동 성공했을때. 이후 행동/메소드 정의
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {

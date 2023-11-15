@@ -1,3 +1,4 @@
+========================= Spring 서버측 소켓 ========================
 1. 웹 소켓 라이브러리 설치
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
@@ -17,6 +18,35 @@
     1. extends TextWebSocketHandler 상속받기
     2. 오른쪽 클릭 -> 생성 -> 메소드 재정의/오버라이딩
 
-        1. afterConnectionEstablished : 클라이언트소켓과 접속성공 했을때 이후 메소드
+        1. afterConnectionEstablished : 클라이언트소켓과 연동 성공했을때. 이후 행동/메소드 정의
+        2. handleTransportError : 클라이언소켓과 세션 오류가 발생했을때 이후 행동/메소드 정의
+        3. afterConnectionClosed : 클라언트소켓과 연동이 끊겼을때. 이후 행동/메소드 정의
+        4. handleTextMessage : 클라이언트소켓으로부터 메시지를 받았을때. 이후 행동/메소드 정의
+
+========================= JS(REACT) 클라이언트 측 소켓 ========================
+
+1. 클라이언트소켓 생성 ( * 생성과 동시에 서버소켓과 연결 )
+    new WebSocket("ws://서버주소/서버소켓매핑주소")
+
+2. 클라이언트소켓 메소드 오버라이딩
+    클라이언트소켓.onopen  = 메소드정의
+    클라이언트소켓.onerror = 메소드정의
+    클라이언트소켓.onclose = 메소드정의
+    클라이언트소켓.onmessage = 메소드정의
+
+3. 클라이언트소켓이 서버소켓으로부터 메시지 보낼떄
+    클라이언트소켓.send( )
+
+
+
+
+
+
+
+
+
+
+
+
 
 
