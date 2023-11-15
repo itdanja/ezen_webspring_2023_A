@@ -94,7 +94,7 @@ export default function Index( props ){
                         </Routes >
                     <Footer />
                 </BrowserRouter >
-            </SocketContext >
+            </SocketContext.Provider >
         </div>
     </>)
 }
